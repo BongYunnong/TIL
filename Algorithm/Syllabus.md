@@ -52,3 +52,18 @@
                 > 두 함수 f(n), g(n)이 있을 때, n<sub>1</sub> <= n, C<sub>1</sub>*g(n) <= f(n) <= C<sub>2</sub> *g(n)이 성립하는
                 <br>상수 C1, C2, n1이 존재하면 f(n) = Θ(g(n))이다.
                 - n^2 + 2n + 1의 경우, O(n<sup>2</sup>)와 Ω(n<sup>2</sup>)을 동시에 만족한다. -> Θ(n<sup>2</sup>) 성립
+        - 예시
+            - Exmaple 1 n(n-1)/2 ∈ O(n<sup>2</sup>)
+                - n(n-1)/2 <= n(n)/2 <= n<sup>2</sup>/2
+                - c = 1/2, N= 0
+            - Example 2 n<sup>2</sup> + 10n ∈ O(n<sup>2</sup>)
+                - n<sup>2</sup>+10n <= n<sup>2</sup> + 10n<sup>2</sup> = 11n<sup>2</sup>
+                - c = 11, N =1
+            - Example 3
+                - 10n과 10n+3은 O(n<sup>2</sup>)에 속하는가? 맞다.
+                - C를 10으로 잡고, n을 0으로 잡았을 때, n>=N이면 10n<=c*n<sup>2</sup>
+                - 10n과 10n+3이 O(n)에 속하는가? 맞다.
+            - Example 4
+                - g(n)이 3n<sup>2</sup>보다 항상 작은 것은 아니지만, 어느 지점부터는 3n<sup>2</sup>을 넘지 않음
+                - 이러한 지점 N이 있기만 하다면 g(n)이 O(n<sup>2</sup>)에 속한다고 말한다.
+                >일정한 N이 넘었을 때 3n<sup>2</sup>보다 g(n)이 작아지면 O(n<sup>2</sup>)에 속한다고 볼 수 있다.
