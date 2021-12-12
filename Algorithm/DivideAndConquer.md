@@ -265,3 +265,169 @@ Sort Problem
 - 방법 2
     - 버블 sort : 앞의 것과 뒤의 것을 계속 비교해서 큰 것을 뒤로 보냄
 <br><br>
+
+
+------------------
+------------------
+
+<br>
+
+퀵 정렬
+----------------------
+---------------------
+- 특정한 값을 기준으로 큰 숫자와 작은 숫자를 나누자.
+- 시간복잡도 : 최악의 경우 O(n<sup>2</sup>), 평균 O(nlogn)
+- 다 정렬이 되어있는 경우, 한가지 숫자만 정렬이 되기에 n<sup>2</sup>이 된다.
+```C++
+void QuickSort(int* data,int start,int end){
+    if(start>=end){
+        return;
+    }
+    int key= start;
+    int i = start+1, j = end, temp;
+    while(i<=j){
+        // 왼쪽에서 오른쪼긍로 key보다 큰 값 찾기
+        while(i<=end && data[i] <= data[key]){
+            i++;
+        }
+        // 오른쪽에서 왼쪽으로 key보다 작은 값 찾기
+        while(j > start && data[j] >= data[key]){
+            j--;
+        }
+        if(i>j){
+            // i와 j가 엇갈리면 key와 작은 값 swap
+            // 지금까지 찾은 값들은 key 왼쪽이 됨
+            temp = data[j];
+            data[j] = data[key];
+            data[key] = temp;
+        }else{
+            // 엇갈리지 않을 때 작은 값과 큰 값 swap
+            temp = data[i];
+            data[i] = data[j];
+            data[j] = temp;
+        }
+    }
+    // j 는 이미 정렬되어있기에 start ~ j-1, j+1 ~ end
+    QuickSort(data, start, j-1);
+    QuickSort(data, j+1, end);
+}
+```
+
+<br>
+
+병합 정렬
+----------------------
+---------------------
+- 다 나누었다가 합치면서 정렬하자.
+- 시간복잡도 : O(nlogn) 보장 
+- 시간복잡도는 좋지만 메모리를 별도의 할당해야한다.
+```C++
+int sorted[8];
+void merge(int a[], int _start, int _middle, int _end){
+    int start = _start;
+    int start2 = _middle+1;
+    int index = _Start;
+    while(start<=middle && start2<=_end){
+        // 더 작은 것을 먼저 sorted에 넣는다.
+        if(a[start] <= a[start2]){
+            sorted[index] = a[start];
+            start++;
+        }else{
+            sorted[index] = a[start2];
+            start2++;
+        }
+        index++;
+    }
+    // start에서부터와 start2에서부터 중 남은 것을 마저 sorted에 넘김
+    if(start > _middle){
+        for(int t=start2; t <= _end; t++){
+            sorted[index] = a[t];
+            index++;
+        }
+    }else{
+        for(int t=start; t <= _middle; t++){
+            sorted[index] = a[t];
+            index++;
+        }
+    }
+
+    for(int t=start; t <= _end; t++){
+        a[t] = sorted[t];
+}
+void mergeSort(int a[], int m, int n){
+    if(m < n){
+        middle = (m+n)/2;
+        mergeSort(a,m,middle);
+        mergeSort(a,middle+1,n);
+        merge(a,m,middle,n);
+    }
+}
+```
+<br>
+
+STL Sort()
+----------------------
+---------------------
+```C++
+#include<iostream>
+#include<algorithm>
+int main(){
+    int a[10] = {9,3,5,4,1,10,8,6,7,2};
+    sort(a,a+10);
+    for(int i=0;i<10 ; i++){
+        cout<<a[i] << ' ';
+    }
+}
+```
+```C++
+bool Compare(int a, int b){
+    // 아래 것을 >로 바꾸면 내림차순이 된다.    
+    return a<b ;
+}
+int main(){
+    int a[10] = {9,3,5,4,1,10,8,6,7,2};
+    sort(a,a+10,Compare);
+    for(int i=0;i<10 ; i++){
+        cout<<a[i] << ' ';
+    }
+}
+```
+```C++
+class student{
+    public:
+        string name;
+        int score;
+        student(string name, int score){
+            this->name = name;
+            this->score = score;
+        }
+        bool operator<(student & student){
+            return this->score < student.score;
+        }
+}
+```
+----------------------
+- 클래스 정의는 속도 면에서 유리하지 않음
+- 클래스는 실무에 적합하고, 프로그래밍 대회에서는 'pair'를 사용
+
+```C++
+#include<iostream>
+#include<vector>
+#include<algorithm>
+int main(){
+    vector<pair<int, string>> v;
+    v.push_back(pair<int,string>(90,"A"));
+    v.push_back(pair<int,string>(85,"B"));
+    ...
+    sort(v.begin(), v.end());
+}
+```
+```C++
+bool Compare(pair<string, pair<int,int>> a, pair<string, pair<int,int>> b){
+    if(a.second.first == b.second.first){
+        return a.second.second > b.second.second;
+    }else{
+        return a.second.first > b.second.first;
+    }
+}
+```

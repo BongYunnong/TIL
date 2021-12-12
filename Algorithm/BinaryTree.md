@@ -176,3 +176,57 @@ return r;
     ```
 
 <br>
+
+
+
+힙 정렬
+----------------------
+---------------------
+- 힙 : 최소, 최댓값을 빠르게 찾아내기위한 완전이진트리
+- 최대 힙 : 부모가 지식보다 큰 힙
+- 힙 생성 알고리즘 시간복잡도 : O(logn) 
+- 전체 힙 정렬 시간복잡도 : O(n)
+```C++
+#include<stdio.h>
+int number=9;
+int heap[9] = {7,6,5,8,3,5,9,1,6};
+int main(){
+    // 힙 만들기 (정렬은 아직)
+    for(int i=1; i<number ;i++){
+        int c = i;
+        do{
+            int root = (c-1)/2;
+            if(heap[root] < heap[c]){
+                int temp = heap[root];
+                heap[root] = heap[c];
+                heap[c] = temp;
+            }
+            c= root;
+        }while(c!=0);
+    }
+    // 완성된 힙 정렬
+    for(int i=number-1; i>=0 ; i--){
+        int temp = heap[0];
+        heap[0] = heap[1];
+        heap[i] = temp;
+        // 첫번째와 마지막 바꾸기
+        int root= 0;
+        int c = 1;
+        do{
+            c = 2* root + 1;
+            // 왼쪽(c)과 오른쪽(c+1) 자식중에 큰 값 고르기.
+            // c < i-1은 정렬한 것을 제외하기 위함
+            if(c<i-1 && heap[c] < heap[c+1]){
+                c++;
+            }
+            // 자식이 루트보다 크다면 교환
+            if(c<i && heap[root] < heap[c]){
+                temp = heap[root];
+                heap[root] = heap[c];
+                heap[c] = temp;
+            }
+            root = c;
+        }while(c < i);
+    }
+}
+```

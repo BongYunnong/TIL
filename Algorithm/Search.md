@@ -14,6 +14,7 @@ Search Problem 1
 - Instance
     - Input : S=[10,7,11,5,13,8] , x = 5
     - Output : yes
+
 <br>
 <br>
 
@@ -129,3 +130,70 @@ int Search(int startIndex, int endIndex){
 - Sequential Search는 하나씩 찾는 것이기에 n임.
 - Binary Search는 2의 제곱만큼 증가하기 때문에 log<sub>2</sub>N임.
 >Binary Search 알고리즘이 더 좋다.
+
+
+---------------------
+---------------------
+
+<br>
+
+선택 정렬
+----------------------
+---------------------
+- 가장 작은 것을 앞으로 보내자.
+- 시간복잡도 : n * (n+1) / 2 => O(n<sup>2</sup>)
+```C++
+for(int i=0;i<10;i++){
+    min = 9999;
+    for(int j=i;j<10;j++){
+        if(min > array[j]){
+            min = array[j];
+            index=  j;
+        }
+    }
+    temp = array[i];
+    array[i] = array[index];
+    array[index] = temp;
+}
+```
+
+<br>
+
+버블 정렬
+----------------------
+---------------------
+- 옆에 있는 값과 비교하자.
+- 시간복잡도 : O(n<sup>2</sup>)
+- swapping을 계속 해주는 것이기에 가장 느림
+```C++
+for(int i=0;i<10;i++){
+    min = 9999;
+    for(int j=0;j<9-i;j++){
+        if(array[j] > array[j+1]){
+            temp = array[j];
+            array[j] = array[j+1];
+            array[j+i] = temp;
+        }
+    }
+}
+```
+
+<br>
+
+삽입 정렬
+----------------------
+---------------------
+- 각 숫자를 적절한 위치에 넣자.
+- 시간복잡도 : 최악의 경우 O(n<sup>2</sup>)
+- 거의 정렬된 상태에서 가장 빠름
+```C++
+for(int i=0;i<9;i++){
+    int j = i;
+    while(j>=0 && array[j] > array[j+1]){
+        temp = array[j];
+        array[j] = array[j+1];
+        array[j+1] = temp;
+        j--;
+    }
+}
+```
