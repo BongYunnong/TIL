@@ -76,7 +76,7 @@ Manhattan Tourist Problem (MTP)
 
 - Recurrence
     - Let s<sub>i,j</sub> be the longest path length from the source to (i, j)
-    - S<sub>i,j</sub> = max(<br>S<sub>i-1,j</sub> + weight of the edge between(i-1,j)and(i,j) ,<br> S<sub>i,j-1</sub> + weight of the edge between(i,j-1))
+    - S<sub>i,j</sub> = max(<br>S<sub>i-1,j</sub> + weight of the edge between(i-1,j) and (i,j) ,<br> S<sub>i,j-1</sub> + weight of the edge between(i,j-1) and (i,j))
     - 왼쪽 위에서부터 오른쪽, 아래로 순차적으로 최대 값을 갱신하면 longest path를 구할 수 있다.
 ```C++
 MTR(n,m){
@@ -96,11 +96,12 @@ MTR(n,m){
 ```C++
 MT_DP{
     S[0,0] = 0
+    // 먼저 오른쪽으로 쭉 진행하는 길과 아래로 쭉 진행하는 길을 계산
     for i = 1 to m
         S[i,0] = S[i-1, 0] + U[i,0]
     for j = 1 to n
         S[0,j] = S[0, j-1] + L[0,j]
-    
+    // 차근차근 계산
     for i = 1 to m
         for j = 1 to n
             S[i,j] = max{S[i-1,j] + U[i,j], S[i,j-1] + L[i,j]}
@@ -119,7 +120,7 @@ Chained matrix multiplication
     - A<sub>1</sub> * A<sub>2</sub> * A<sub>3</sub>
     - A<sub>1</sub>의 크기 10 * 100, A<sub>2</sub>의 크기 100 * 5, A<sub>3</sub>의 크기 5 * 50
     -  A<sub>1</sub> *  A<sub>2</sub>를 먼저 계산한다면, 곱셈의 총 횟수는 7500회
-    -  A<sub>2</sub> *  A<sub>3</sub>를 먼저 계산한담면, 곱셈의 총 횟수는 75000회
+    -  A<sub>2</sub> *  A<sub>3</sub>를 먼저 계산한다면, 곱셈의 총 횟수는 75000회
     - 따라서, 연쇄적으로 행렬을 곱할 때 곱셈의 횟수가 가장 적게 되는 최적의 순서를 결정하는 알고리즘을 개발하는 것이 목표이다.
 - Instance
     - Input : Matrix A는 사실 d0, d1, d2 ... dk이다. (10,100,5,50)
@@ -137,10 +138,38 @@ Chained matrix multiplication
 | 0   |           |              |               |    |
 |:---: | :---: | :---: |  :---: | :---: |   
 | M[1][2] = d0 * d1* d2  | 0            |   |    |
-| M[1][2]+M[2][3]+d0*d2*d3 | M[2][3] = d1 * d2 *d3       | 0 | |
-| M[1][3]+M[3][4]+d0*d3*d4 or<br>M[1][2]+M[2][4]+d0*d2*d4 | M[2][3] + M[3][4] + d1 * d3 *d3       | M[3][4] = d2 * d3 *d4  |  0|
+| M[1][3] = M[1][k]+M[k+1][3]+d0*d3*dk | M[2][3] = d1 * d2 *d3       | 0 | |
+| M[1][4] = M[1][k]+M[k_1][4]+d0*d4*dk | M[2][4] = M[2][k] + M[k+1][4] + d1*d4*dk       | M[3][4] = d2 * d3 *d4  |  0|
 
 > M[i][j] = M[i][k] + M[K+1][j] + d(i-1) * dj * dk <br> =di * M[i+1][j] or M[i][j] * d(j-1) <br> M[1][n] = d0 * M[2][n] or M[1][n] * d(n-1)
+
+```C++
+int mat(int n){
+    int a,b;
+    int i,j,k;
+    for(i=0;i<n;i++){
+        for(j=0;j<n-i;j++){
+            a = j;
+            b = j+1;
+            if(a==b){
+                dp[a][b] = 0;
+            }else{
+                dp[a][b] = 9999999;
+                for(k=a;k<b;k++){
+                    dp[a][b] = min(dp[a][b],
+                                    dp[a][k]+dp[k+1][b] 
+                                    + matrix[a][0]*matrix[k][1]*matrix[b][1]);
+                }
+            }
+        }
+    }
+    return dp[0][n-1];
+}
+int min(int x, int y){
+    return x < y ? x: y;
+}
+```
+
 
 <br>
 
@@ -229,12 +258,17 @@ int bin2(int n, int k){
             if(j==0 || j == i)
                 B[i][j] = 1;
             else
-                B[i][j] = B[i-1][j=1] + B[i-1][j];
+                B[i][j] = B[i-1][j-1] + B[i-1][j];
         }
     }
     return B[n][k];
 }
 ```
+- 시간 복잡도
+    - 1+2+3+..+k + (K+1) * (n-k+1)
+    - = k(k+1)/2 + (n-k+1)(k+1)
+    - (2n-k+2)(k+1)/2 ∈ 0(nk)
+
 <br>
 
 Shortest Paths Problem
@@ -257,9 +291,7 @@ Shortest Paths Problem
     - k는 경유하는 정점
 
 - Chained matrix multiplication
-> M[i][j] = Minimum number of multiplications needed to multiply A<sub>i</sub> through A<sub>j</sub> (if i < j)
-<br> = minimum<sub>i<=k<=j-1</sub>(M[i][k]+M[k+1][j] + d<sub>i-1</sub>*d<sub>k</sub>*d<sub>j</sub>)
-<br> M[i][i] = 0
+> D<sup>(k)</sup>[i][j] = minimum( D<sup>(k-1)</sup>[i][j] , D<sup>(k-1)</sup>[i][k] + D<sup>(k-1)</sup>[k][j] )
 
 - D(k)[i][j]와 D(k-1)[i][j]의 관계는?
     - K를 거치는 방법
@@ -274,7 +306,9 @@ Shortest Paths Problem
     ...
     - D(n)[i][j]를 도출
 
-- Floyd의 알고리즘 1
+
+Floyd의 알고리즘 1
+--------------------
 ```C++
 void floyd(int n, const number W[][], number D[][][]){
     int i, j, k;
@@ -297,7 +331,8 @@ void floyd(int n, const number W[][], number D[][][]){
 
 <br>
 
-- Floyd의 알고리즘 2
+Floyd의 알고리즘 2
+--------------------
 ```C++
 void floyd(int n, const number W[][], number D[][]){
     int i, j, k;
@@ -321,3 +356,72 @@ void floyd(int n, const number W[][], number D[][]){
     - 맞긴 한데, 문제가 없다. D(k)(i)(k)가 D(k-1)(i)(k)와 같기 때문.
     - 1부터 k까지를 거친다고 해봐야 1부터 k-1까지를 거쳐서 가는 것과 같음
     - D(k-1)(i)(k)도 k에서 출발하기 때문에 D(k)(i)(k)와 같음
+- 시간복잡도 : T(n) = n * n * n = n<sup>3</sup> ∈ 0(n<sup>3</sup>)
+
+<br>
+
+Optimal binary search tree problem
+--------------------
+--------------------
+- Definition : key[1...n]을 정렬하고, pi는 key i를 찾게 되는 확률
+    - ci는 key i 를 찾기 위해 필요한 비교연산의 수
+    - 평균 탐색 시간은 c1p1 + c2p2 ... + cnpn
+    - 목표는 key들을 평균 탐색 시간이 최소가 되도록 binary search tree를 조정하는 것.
+- Problem: Dtermine the node containing a key in a binary search tree
+    - Input : a binary search tree and a key
+    - Output : a node containing the key
+    - DataStructure
+    ```
+    struct nodetype{
+        keytype key;
+        nodetype* left;
+        nodetype* right;
+    };
+    typedef nodetype* node_pointer;
+    ```
+- Instance
+    - 전화번호를 저장한다고 했을 때, 어떻게 저장할 것인가?
+    - 가나다 순? 처음부터 쭉? 
+    - Tree를 만들자!
+
+``` C++
+void search(node_pointer tree, keytype keyin, node_pointer& p){
+    bool found;
+    p = tree;
+    found = false;
+    while(!found){
+        if(p->key == keyin)
+            found = true;
+        else{
+            if(keyin < p->key)
+                p=p->left;
+            else
+                p=p->right;
+        }
+    }
+}
+```
+
+- A[1][n] = min{A[1][k-1]+A[k+1][n] + 시그마 i가 1부터 n까지 pi}
+- A[i][j] = min{A[i][k-1]+A[k+1][j] + 시그마 m이 i부터 j까지 pm}
+```C++
+void optsearchtree(int n, const float p[], float& minavg, index R[][]){
+    for(i =1; i<=n; i++){
+        A[i][i-1] = 0;
+        A[i][i] = p[i];
+        R[i][i-1] = 0;
+        R[i][i] = i;
+    }
+    A[n+1][n] = 0;
+    R[n+1][n] = 0;
+    for(diagonal = 1; diagonal <=n-1; diagonal++){
+        for(i=1, i=n+diagonal;i++){
+            j=i+diagonal;
+            A[i][j] = min(A[i][k-1]+A[k+1][j] + 시그마 m이i에서 j까지 Pm);
+            R[i][j] = value of k that gave the minimum
+        }
+    }
+    minavg = A[1][n];
+}
+```
+<br>

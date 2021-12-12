@@ -7,7 +7,16 @@ Greedy
 --------------------
 - 스쿠루지 영감의 목적 : 오늘 밤 내 금고에 돈이 가장 많게 하는 것
 - 그리디 알고리즘 : 목표를 하나 정해서 매 순간 그 기준에 부합하는 최고의 선택을 한다.
-
+```
+While(the instance is not solved){
+    //selection procedure
+    Select the next item according to some locally optimal consideration
+    //feasibility check
+    Determine if the new set is feasible. If so, add it
+    //solution check
+    Determine whether the new set constitutes a solution
+}
+```
 <br>
 
 Give Change
@@ -26,11 +35,52 @@ Give Change
     - 아, 항상 최적의 알고리즘은 아니구나.
 
 
+- Dynamic Programming으로 하면?
+    - Goal : Convert some amount of money M into given denominations, using the fewest possible number of coins
+    - Input : An amount of money M, and an array of d denominations c = (c1,c2...,cd), in a decreasing order of value(c1>c2>...cd)
+    - Output : A list of d integers i1,i2,...,id such that c1i1+c2i2+...cdid = M and i1+i2+...+id is minimal
+    - minNumCoins(M) = min{minNumCoins(M-c1),minNumCoins(M-c2),...,minNumCoins(M-cd)} + 1
+```C++
+recursiveChange(M,c,d){
+    if(M = 0)
+        return 0;
+    bestNumCoins = infinity
+    for(i=1 to d){
+        if(M >= ci){
+            numCoins = RecursiveChange(M-ci,c,d)
+            if(numCoins + 1 < bestNumCoins){
+                bestNumCoins = numCoins + 1
+            }
+        }
+    }
+    return bestNumCoins
+}
+```
+- 위의 것은 반복되는 것이 너무 많다.
+```C++
+DPChange(M,c,d){
+    bestNumCoins_0 = 0
+    for m = 1 to M{
+        bestNumCoins_m = infinity
+        for i = 1 to d{
+            if m >= c
+                if bestNumCoins_m-ci + 1 < bestNumCoins_m
+                    bestNumCoins_m = bestNumCoins_m-ci + 1
+        }
+    }
+    return bestNumCoins_m
+}
+```
+
+
 <br>
 
 Minimum Spanning Tree Problem(MST)
 --------------------
 --------------------
+- Problem : For a undirected weighted graph G, find a minimum spanning tree, spanning tree with minimum weight
+- Undirected graph G =(V,E), connected, path, simple cycle
+- spanning tree for a graph G : connected subgraph that contains all the vertices of G and is a tree
 - 해결방법 1
     - 아무 노드나 하나를 잡고, 연결된 edge 중 가장 값이 작은 edge와 연결된 노드를 방문한다.
     - 하지만 이렇게 하면 spanning tree가 안 될 수도 있고, minimum이 아닐 수도 있다.
@@ -48,13 +98,18 @@ F={}
 Y={v1}
 while(the instance is not solved){
     Select a vertex v in V-Y that that is nearest to Y;
+    (a vertex that is connected to a vertex in Y by an edge of minimum weight)
+
     Add the vertex v to Y;
     Add the edge (on the shortest path) to F;
+
     if(Y==V)
         The Instance is solved;
 }
 ```
 ```C++
+// Input : 정점의 수, 그래프의 인접 행렬식
+// output : 그래프의 MST에 속한 이음선의 집합
 void MST(int n, int W[][], set_of_edges& F){
     F= empty_set;
     inY[1] = 1;
@@ -89,25 +144,34 @@ void MST(int n, int W[][], set_of_edges& F){
 <br>
 
 ```C++
-void MST(int n, int W[][], set_of_edges& F){
+void prim_MST(int n, int W[][], set_of_edges& F){
+    index i, vnear;
+    number min;
+    edge e;
+    index nearest[2...n];
+    number distance[2...n];
+
     F= empty_set;
     for(i=2; i<=n ; i++){
-        nearest[i] = 1;
-        distance[i] = W[1][j];
+        nearest[i] = 1; //vi에서 가장 가까운 정점을 v1으로 초기화
+        distance[i] = W[1][j]; // vi와 v1을 잇는 이음선의 가중치로 초기화
     }
-    repeat(n-1 times){
+    repeat(n-1 times){  //n-1개의 정점을 Y에 추가
         min = "infinite";
-        for(i=2;i<=n;i++){
-            if(0<=distance[i]<min){
+        for(i=2;i<=n;i++){  
+            //각 정점에 대해서
+            //distance[i]를 검사하여 가장 가까이 있는 vnear 찾음
+            if(0<=distance[i]<min){ 
                 min = distance[i];
                 vnear = i;
             }
         }
         e = vnear와 nearest[vnear]를 잇는 edge;
         e를 F에 추가
-        distance[vnear] = -1;
+        distance[vnear] = -1;   //찾은 노드를 Y에 추가
         for(i=2;i<=n;i++){
             if(W[i][vnear] < distance[i]){
+                //Y에 없는 각 노드에 대해서 distance[i]를 갱신
                 distance[i] = W[i][vnear];
                 nearest[i] =vnear;
             }
@@ -123,8 +187,8 @@ void MST(int n, int W[][], set_of_edges& F){
 - 만약 그래프에서 i에서 vnear까지 가는 것이 distance[i]보다 작으면, distance를 그 값으로 갱신하고, 가장 가까운 것인 nearest[i]도 vnear로 갱신한다.
 - 처음에 그냥 v1과 이어진 vi의 가중치만 생각했기 때문에 원래 갈 수 없는 곳이었는데, vnear가 새로 갱신되면서 갈 수 있게 된다.
 - distance를 갱신하는 이유는 다음 loop에 사용해야하기 때문
-- 위의 코드와 다른 점은, distance라는 배열을 만들어서 inY의 역학롸 최소의 가중치를 저장하는 역할을 동시에 했다는 것이다.
-- 시간복잡도 : O(n<sup>2</sup>)
+- 위의 코드와 다른 점은, distance라는 배열을 만들어서 inY의 역할과 최소의 가중치를 저장하는 역할을 동시에 했다는 것이다.
+- 시간복잡도 : 2(n-1)(n-1) =>  O(n<sup>2</sup>)
 - Optimal할까? Yes
 
 
@@ -134,7 +198,20 @@ void MST(int n, int W[][], set_of_edges& F){
     - Edge의 최소 값을 찾아서 두 정점을 잇는다.
     - 이때, 추가시킨 edge가 cycle을 만들면 무시한다.
     - 과연 Optimal할까? Yes
-
+```C++
+F={}
+Create disjoint subsets of V, one for each vertex and containing only that vertex;
+Sort the edges in E in non decreasing order;
+While(the instance is not solved){
+    Select next edge;
+    if(the edge connects two vertices in disjoin subset){
+        Merge the subsets;
+        Add the edge to F;
+    }
+    if(all the subsets are merged)
+        The instance is solved;
+}
+```
 
 
 Single Source Shortest Path Problem
@@ -218,3 +295,114 @@ void dijkstra(int n, const number W[][], set_of_edges& F){
     - 2n * (n-1) => Θ(n<sup>2</sup>)
     - 플로이드 알고리즘은 O(n<sup>3</sup>)이라서, 2번 문제를 풀기 위해 분할한 것이 다익스트라 알고리즘.
     - Greedy 알고리즘이지만 항상 Optimal하다.
+
+<br>
+
+Code
+--------------------
+--------------------
+- binary code : each character is represented by a unique binary string, called the codeword
+- fixed-length binary code : represents each message (character) using the same number of bits
+- Instance
+    - a : 00, b: 01, c:11
+    - ababcbbbc
+    - 000100011101010111
+- variable-length binary code : use different number of bits
+- Instance
+    - some message appear more frequently
+    - a : 10, b: 0, c: 11
+    - ababcbbbc
+    - 1001001100011
+<br>
+
+
+Huffman Code Problem
+--------------------
+--------------------
+- code? 어떠한 의미를 문자로 표현한 것.
+- b라는 문자가 많이 사용된다면, b를 짧게 표현하는 것이 좋다.
+- Encoding Instance
+    - Bits(C1) = 16(3) + 5(3) + 12(3) + 17(3) + 10(3) + 25(3) = 255
+    - Bits(C2) = 16(2) + 5(5) + 12(4) + 17(3) + 10(5) + 25(1) = 231
+    - Bits(C3) = 16(2) + 5(4) + 12(3) + 17(2) + 10(4) + 25(2) = 212
+
+
+|Character|Frequency|C1(fixed-length)|C2|C3(Huffman)  |  
+|:---: | :---: | :---: |  :---: |  :---: |  
+| a | 16 | 000 | 10 | 00 |
+| b | 5  | 001 | 11110 | 1110 |
+| c | 12 | 010 | 1110 | 110 |
+| d | 17 | 011 | 110 | 01 |
+| e | 10 | 100 | 11111 | 1111 |
+| f | 25 | 101 | 0 | 10 |
+- fixed로 표현하면 6개를 표현하고싶다면 2<sup>2</sup>으로는 부족하기에 2<sup>3</sup>이 필요
+- 빈도가 다 비슷하면 C1이 좋겠지만, 사용되는 빈도가 다르다면 variable-length 방식이 좋을 수 있다.
+- 우리의 목적 : 각 메시지들의 frequency가 주어졌을 때, 평균 코드의 길이가 가장 적은 코드를 만들고싶다. => 이진트리
+
+- a,b,c,d,e,f를 frequency를 기준으로 정렬하고, 왼쪽에 더 많이 사용된 것, 오른쪽에 덜 사용된 것을 나열하다보면, 한쪽으로 치우친 2진 트리가 만들어진다. -> C2방식
+
+
+Prefix code and binary code tree
+--------------------
+--------------------
+- prefix code
+    - No codeword for one character constitutes the beginning of the codeword for another character
+- Every prefix code can be represented by a binary code tree whose leaves are the characters that are to be encoded.
+    - a:10, b: 0, c:11
+- prefix code의 해독
+    - code의 가장 처음 비트와 tree의 root에서 시작
+    - code를 읽으면서 code의 값에 따라 tree의 왼쪽, 오른쪽을 선택
+    - tree의 leaf에 닿으면 character를 출력하고 다시 root로 이동
+
+- 어떻게 binary tree를 만들어야 할까?
+    - frequency가 가장 작은 값 2개를 합쳐서 tree 구조를 만드는 것을 반복
+    - 5, 10, 12, 16, 17, 25
+    - 12, 15, 16, 17, 25
+    - 16, 17, 25, 27
+    - 25, 27, 33
+    - 33, 52
+    - 85
+
+- Q: 왜 굳이 두 값을 더하는가?
+    - A : 우리가 원했던 것은 frequency * depth였음. 5 * 4 + 10 * 4 + 12 * 3 이렇게 되어서 이것이 최소화 되기를 원했던 것임.
+    - 어라? 4 * (5+10) 얘네가 가지 하나만 있었으면 5+10이 되었을 것.
+    - 그런데 여기에 4가 곱해지게 된 것은 depth가 4라서 그렇다.
+    - 이것은 depth가 증가할수록 한번씩 더 사용된다는 것이다.-> 12 * 1 + (5+10) * 2
+    - 작은 것을 2개 합치는 기준을 가진 Greedy Algorithm이구나.
+
+
+Huffman's Algorithm
+--------------------
+--------------------
+```C++
+for(i = 1; i<= n-1 ; i++){
+    remove(PQ, p);
+    remove(PQ, q);
+    r = new nodetype;
+    r->left= p;
+    r->right = q;
+    r->frequency = p->frequency + q->frequency;
+    insert(PQ, r);
+}
+remove(PQ, r);
+return r;
+```
+- n = number of characters in the file
+     - 다음과 같은 n개의 tree를 생성해서 priority queue PQ에 저장
+     - p->symbol = character
+     - p->frequency = character의 frequency
+     - p->left = p->right = NULL
+
+- PQ는 priorityQueue임
+    - priority Queue : the element with the highest priority is always removed next
+    - linked list나 heap으로 구현 가능
+    - In this case, the element with the highest priority is the character with the lowest frequency in the file.
+    ``` 
+    struct nodetype{
+        char symbol;
+        int frequency;
+        nodetype* left;
+        nodetype* right;
+    }
+    ```
+

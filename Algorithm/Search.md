@@ -131,6 +131,29 @@ int Search(int startIndex, int endIndex){
 - Binary Search는 2의 제곱만큼 증가하기 때문에 log<sub>2</sub>N임.
 >Binary Search 알고리즘이 더 좋다.
 
+<br>
+    
+Sort Problem
+--------------------
+--------------------
+- Problem : 배열 S의 요소들을 크기 순으로 정렬하는 문제
+    - Input : array S
+    - Output : S
+
+
+- 방법 1
+    - S에서 가장 큰 max를 찾아서 어디에 둘까?
+        - S의 맨 뒤에 두자 -> 원래 있던 요소는?
+        - 가장 쉬운 방법은 T라는 임시 array를 만든다.
+            - 다음에는 max를 빼고 나머지 것에서 찾아야한다.
+            - 나중에 T에 있는 것을 그대로 S에 대입한다.
+        - 새로운 T를 만들어야 한다는 단점(메모리 2배, copy하는 시간)
+            - S의 위치와 max의 위치를 바꿔주자.
+            - 반복할 때 array count - 찾은개수 만큼 반복하면 된다.
+- 방법 2
+    - 버블 sort : 앞의 것과 뒤의 것을 계속 비교해서 큰 것을 뒤로 보냄
+<br><br>
+
 
 ---------------------
 ---------------------
@@ -194,6 +217,61 @@ for(int i=0;i<9;i++){
         array[j] = array[j+1];
         array[j+1] = temp;
         j--;
+    }
+}
+```
+<br>
+
+
+
+힙 정렬
+----------------------
+---------------------
+- 힙 : 최소, 최댓값을 빠르게 찾아내기위한 완전이진트리
+- 최대 힙 : 부모가 지식보다 큰 힙
+- 힙 생성 알고리즘 시간복잡도 : O(logn) 
+- 전체 힙 정렬 시간복잡도 : O(n)
+```C++
+#include<stdio.h>
+int number=9;
+int heap[9] = {7,6,5,8,3,5,9,1,6};
+int main(){
+    // 힙 만들기 (정렬은 아직)
+    for(int i=1; i<number ;i++){
+        int c = i;
+        do{
+            int root = (c-1)/2;
+            if(heap[root] < heap[c]){
+                int temp = heap[root];
+                heap[root] = heap[c];
+                heap[c] = temp;
+            }
+            c= root;
+        }while(c!=0);
+    }
+    // 완성된 힙 정렬
+    for(int i=number-1; i>=0 ; i--){
+        int temp = heap[0];
+        heap[0] = heap[1];
+        heap[i] = temp;
+        // 첫번째와 마지막 바꾸기
+        int root= 0;
+        int c = 1;
+        do{
+            c = 2* root + 1;
+            // 왼쪽(c)과 오른쪽(c+1) 자식중에 큰 값 고르기.
+            // c < i-1은 정렬한 것을 제외하기 위함
+            if(c<i-1 && heap[c] < heap[c+1]){
+                c++;
+            }
+            // 자식이 루트보다 크다면 교환
+            if(c<i && heap[root] < heap[c]){
+                temp = heap[root];
+                heap[root] = heap[c];
+                heap[c] = temp;
+            }
+            root = c;
+        }while(c < i);
     }
 }
 ```

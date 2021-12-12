@@ -129,7 +129,7 @@ void mergesort(int n, keytype S[]){
 }
 ```
 - 시간복잡도
-    - 나누는 과정에서 각각 n사건
+    - 나누는 과정에서 각각 n시간
     - 합치는 과정에서 f(n/2)시간 * 2
     - 마지막 단계에서 n시간
     - f(n) = 2n + 2f(n/2)
@@ -244,29 +244,6 @@ void partition(index low, index high, index& pivotPoint){
     - Average : nlogn
     - Best : nlogn
 
-    
-Sort Problem
---------------------
---------------------
-- Problem : 배열 S의 요소들을 크기 순으로 정렬하는 문제
-    - Input : array S
-    - Output : S
-
-
-- 방법 1
-    - S에서 가장 큰 max를 찾아서 어디에 둘까?
-        - S의 맨 뒤에 두자 -> 원래 있던 요소는?
-        - 가장 쉬운 방법은 T라는 임시 array를 만든다.
-            - 다음에는 max를 빼고 나머지 것에서 찾아야한다.
-            - 나중에 T에 있는 것을 그대로 S에 대입한다.
-        - 새로운 T를 만들어야 한다는 단점(메모리 2배, copy하는 시간)
-            - S의 위치와 max의 위치를 바꿔주자.
-            - 반복할 때 array count - 찾은개수 만큼 반복하면 된다.
-- 방법 2
-    - 버블 sort : 앞의 것과 뒤의 것을 계속 비교해서 큰 것을 뒤로 보냄
-<br><br>
-
-
 ------------------
 ------------------
 
@@ -286,7 +263,7 @@ void QuickSort(int* data,int start,int end){
     int key= start;
     int i = start+1, j = end, temp;
     while(i<=j){
-        // 왼쪽에서 오른쪼긍로 key보다 큰 값 찾기
+        // 왼쪽에서 오른쪽으로 key보다 큰 값 찾기
         while(i<=end && data[i] <= data[key]){
             i++;
         }
