@@ -122,7 +122,7 @@ bool promising(index i){
 - 그 전에는 왼쪽과 오른쪽 노드에 sos를 다시 call 해야함
 - promising이란? 어느 노드에 가서 다 방문을 할텐데, 이것이 더이상 진행할 필요가 있는가.
 
-- Backgracking algorithm for the sum-of-subet problem
+- Backtracking algorithm for the sum-of-subet problem
     - promising function?
     - nonpromising if
         - weight + w<sub>i+1</sub> > W
@@ -137,7 +137,7 @@ bool promising(index i){
 0-1 Knapsack problem
 --------------------
 --------------------
-- Inputs : S={itemi | i = 1, 2...n} where item i has integer weight w i and profit p i, and W
+- Inputs : S={item i | i = 1, 2...n} where item i has integer weight w i and profit p i, and W
 - Outputs : subset A of S such that weight in A is less than or equal to W and profit is maximized
 
 - 어떤 괜찮은 값을 찾았는데, 더 optimal한 값이 있는지 체크하기는 어려움 -> 다 해봐야한다.
@@ -199,6 +199,8 @@ void breadth_first_branch_and_bound(state_sapce_tree T,number& best){
         for(each child u of v){
             if(value(u) is better than best)
                 best = value(u);
+            // bound가 best보다 높은 것만 enqueue를 하면서 
+            // 자동으로 nonpromising은 사라짐
             if(bound(u) is better than best)
                 enqueue(Q, u);
         }

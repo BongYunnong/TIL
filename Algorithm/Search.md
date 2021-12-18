@@ -50,9 +50,9 @@ int main(){
     for(int i=0;i<n;i++){
         cin >> listS[i];
     }
-    std::cin >>x;
+    std::cin >> x;
     for(int i=0;i<n;i++){
-        if(listS[i] ==x){
+        if(listS[i] == x){
             index =i;
             break;
         }

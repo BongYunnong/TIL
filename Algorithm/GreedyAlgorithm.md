@@ -92,7 +92,7 @@ Minimum Spanning Tree Problem(MST)
     - 선택된 모든 노드에 대해서 아직 선택되지 않은 노드와의 edge cost가 제일 작은 것을 고른다.
     - v1에서 시작했을 경우, v2로 가고, 그 후에 v1과 v2를 연결
 
-- Prim's greedy Algorith for MST
+- Prim's greedy Algorith for MST (노드 기준)
 ```C++
 F={}
 Y={v1}
@@ -194,7 +194,7 @@ void prim_MST(int n, int W[][], set_of_edges& F){
 
 <br>
 
-- Kruskal Algorithm
+- Kruskal Algorithm (Edge기준)
     - Edge의 최소 값을 찾아서 두 정점을 잇는다.
     - 이때, 추가시킨 edge가 cycle을 만들면 무시한다.
     - 과연 Optimal할까? Yes
@@ -271,7 +271,7 @@ void dijkstra(int n, const number W[][], set_of_edges& F){
                 vnear = i;
             }
         }
-        e=  edge from vertex indexed by touch[vnear] to vertex indexed by vnear
+        e = edge from vertex indexed by touch[vnear] to vertex indexed by vnear
         Add e to F;
         for(i= 2; i<=n; i++){
             if(length[vnear] + W[vnear][i] < length[i]){

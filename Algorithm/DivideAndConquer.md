@@ -202,13 +202,13 @@ void partition1(index low, index high, index& pivotPoint){
     }
     pivotPoint = j;
     i = low;
-    for(m= 1;m<j;m++){
+    for(m= 1; m<j; m++){
         S[i] = A[m];
         i++;
     }
     S[i] = pivotItem;
     i++;
-    for(m=1;m<k;m++){
+    for(m=1; m<k; m++){
         S[i] = B[m];
         i++;
     }
