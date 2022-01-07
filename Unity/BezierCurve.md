@@ -420,3 +420,280 @@
     }
     ...
     ```
+## #04 : Inserting and Deleting Points
+- 어떠한 Anchor를 삭제하려면 보통의 경우는 i-1, i, i+1 point를 삭제해야한다.
+    - i가 0일 경우에는 0,1,2를 삭제해야한다.
+    - i가 마지막일 경우에는 count-1,count-2,count-3을 삭제해야한다.
+- 그런데 닫혀있는 경우에는, 0번째 점을 삭제하면 다음 anchor의 앞 control이 0번째가 되어버린다.
+    - 0번 anchor의 -1 control을 1번 anchor의 -1 control로 이동시키고, 0번 anchor와 1 controll을 삭제하면 된다.
+- path
+```
+public void DeleteSegment(int anchorIndex){
+        if(NumSegments > 2 || !isClosed && NumSegments>1){
+        if(anchorIndex==0){
+            if(isClosed){
+                points[points.Count-1] = points[2];
+            }
+            points.RemoveRange(0,3);
+        }else if(anchorIndex == points.Count-1 && !isClosed){
+            points.RemoveRange(anchorIndex-2,3);
+        }else{
+            points.RemoveRange(anchorIndex-1,3);
+        }
+    }
+}
+```
+- PathEditor
+```
+void Input(){
+    ...
+    if(guiEvent.type==EventType.MouseDown && guiEvent.button==1){
+        float minDstToAnchor = 0.05f;
+        int closestAnchorIndex = -1;
+        for(int i=0;i<path.NumPoints;i++){
+            float dst = Vector2.Distance(mousePos,path[i]);
+            if(dst<minDstToAnchor){
+                minDstToAnchor = dst;
+                closestAnchorIndex = i;
+            }
+        }
+        if(closestAnchorIndex != -1){
+            Undo.RecordObject(creator,"Delete segment");
+            path.DeleteSegment(closestAnchorIndex);
+        }
+    }
+}
+```
+- toggle Closed 삭제하고 property로 전환
+- path
+```
+    public bool IsClosed
+    {
+        get
+        {
+            return isClosed;
+        }
+        set
+        {
+            if(isClosed != value)
+            {
+                isClosed = value;
+                if (isClosed)
+                {
+                    // 닫혀있다면, points에 마지막것과 첫번째 것을 연결해줘야함
+                    points.Add(points[points.Count - 1] * 2 - points[points.Count - 2]);
+                    points.Add(points[0] * 2 - points[1]);
+                    if (autoSetControlPoints)
+                    {
+                        AutoSetAnchorControlPoints(0);
+                        AutoSetAnchorControlPoints(points.Count - 3);
+                    }
+                }
+                else
+                {
+                    // 닫혀있지 않다면, 마지막 2개(닫기 위해 존재하는 points)는 삭제 
+                    points.RemoveRange(points.Count - 2, 2);
+                    if (autoSetControlPoints)
+                    {
+                        AutoSetStartAndEndControls();
+                    }
+                }
+            }
+        }
+    }
+```
+- Path Editor
+```
+...OnInspectorGUI()...
+        bool isClosed = GUILayout.Toggle(path.IsClosed, "Closed");
+        if (isClosed != path.IsClosed)
+        {
+            Undo.RecordObject(creator, "Toggle closed");
+            path.IsClosed = isClosed;
+        }
+```
+- 새 anchor 삽입하기
+```
+    public void SplitSegment(Vector2 anchorPos, int segmentIndex)
+    {
+        points.InsertRange(segmentIndex * 3 + 2, new Vector2[] { Vector2.zero, anchorPos, Vector2.zero });
+        if (autoSetControlPoints)
+        {
+            AutoSetAllAffectedControlPoints(segmentIndex * 3 + 3);
+        }
+    }
+```
+- Path Editor
+```
+    const float segmentSelectDistanceThreshold = 0.1f;
+    int selectedSegmentIndex = -1;
+    ...
+    ...Input()...
+    if(guiEvent.type == EventType.MouseDown && guiEvent.button == 0 && guiEvent.shift)
+    {
+        if (selectedSegmentIndex != -1)
+        {
+            Undo.RecordObject(creator, "Split Segement");
+            path.SplitSegment(mousePos, selectedSegmentIndex);
+        }
+        else if(!path.isClosed)
+        {
+            Undo.RecordObject(creator, "Add Segement");
+            path.AddSegment(mousePos);
+        }
+    }
+    ...
+    if (guiEvent.type == EventType.MouseMove)
+    {
+        float minDstToSegment = segmentSelectDistanceThreshold;
+        int newSelectedSegmentIndex = -1;
+        for (int i = 0; i < path.NumSegments; i++)
+        {
+            Vector2[] points = path.GetPointsInSegment(i);
+            float dst = HandleUtility.DistancePointBezier(mousePos, points[0], points[3], points[1], points[2]);
+            if (dst < minDstToSegment)
+            {
+                minDstToSegment = dst;
+                newSelectedSegmentIndex = i;
+            }
+        }
+        if(newSelectedSegmentIndex != selectedSegmentIndex)
+        {
+            selectedSegmentIndex = newSelectedSegmentIndex;
+            HandleUtility.Repaint();
+        }
+    }
+    ...
+```
+- 색깔 변경하기
+- path creator
+```
+    public Color anchorColor = Color.red;
+    public Color controlColor = Color.white;
+    public Color segmentColor = Color.green;
+    public Color selectedSegmentCol = Color.yellow;
+    public float anchorDiameter = 0.5f;
+    public float controlDiameter = 0.25f;
+    public bool displayControlPoints = true;
+
+```
+- pathEditor
+```
+    void Draw()
+    {
+        // Anchor-Control 사이의 Line, Bezier Curve Line 그리기
+        for(int i = 0; i < path.NumSegments; i++)
+        {
+            Vector2[] points = path.GetPointsInSegment(i);
+            if(creator.displayControlPoints){
+                Handles.color = Color.black;
+                Handles.DrawLine(points[1], points[0]);
+                Handles.DrawLine(points[2], points[3]);
+            }
+            Color segmentColor = (i == selectedSegmentIndex && Event.current.shift) ? creator.selectedSegmentCol: creator.segmentColor;
+            Handles.DrawBezier(points[0], points[3], points[1], points[2], segmentColor, null, 2);
+        }
+        // Anchor 그리기
+        for(int i = 0; i < path.NumPoints; i++)
+        {
+            if (i % 3 == 0 || creator.displayControlPoints)
+            {
+                Handles.color = (i % 3 == 0) ? creator.anchorColor : creator.controlColor;
+                float handleSize = (i % 3 == 0) ? creator.anchorDiameter : creator.controlDiameter;
+                // Anchor는 Handle로, 움직일 수 있음
+                Vector2 newPos = Handles.FreeMoveHandle(path[i], Quaternion.identity, handleSize, Vector2.zero, Handles.CylinderHandleCap);
+                if (path[i] != newPos)
+                {
+                    Undo.RecordObject(creator, "Move point");
+                    path.MovePoint(i, newPos);
+                }
+            }
+        }
+    }
+```
+- Reset
+- path creator
+```
+    private void Reset()
+    {
+        CreatePath();
+    }
+```
+- path Editor
+```
+    Path Path
+    {
+        get
+        {
+            return creator.path;
+        }
+    }
+```
+
+
+## #05 : Evenly Spaced Points
+```
+public class Bezier
+{
+    public static Vector2 EvaluateQuadratic(Vector2 a, Vector2 b, Vector2 c, float t)
+    {
+        Vector2 p0 = Vector2.Lerp(a, b, t);
+        Vector2 p1 = Vector2.Lerp(b, c, t);
+        return Vector2.Lerp(p0, p1, t);
+    }
+    public static Vector2 EvaluateCubic(Vector2 a, Vector2 b, Vector2 c, Vector2 d, float t)
+    {
+        Vector2 p0 = EvaluateQuadratic(a, b, c, t);
+        Vector2 p1 = EvaluateQuadratic(b, c, d, t);
+        return Vector2.Lerp(p0, p1, t);
+    }
+}
+```
+- path
+```
+    public Vector2[] CalculateEvenlySpacedPoints(float spacing, float resolution = 1)
+    {
+        List<Vector2> evenlySpacedPoints = new List<Vector2>();
+        evenlySpacedPoints.Add(points[0]);
+        Vector2 previousPoint = points[0];
+        float dstSinceLastEvenPoint = 0;
+        for(int segmentIndex = 0; segmentIndex < NumSegments; segmentIndex++)
+        {
+            Vector2[] p = GetPointsInSegment(segmentIndex);
+            float controlNetLength = Vector2.Distance(p[0], p[1]) + Vector2.Distance(p[1], p[2]) + Vector2.Distance(p[2], p[3]);
+            float estimatedCurveLength = Vector2.Distance(p[0], p[3]) + controlNetLength / 2f;
+            int divisions = Mathf.CeilToInt(estimatedCurveLength * resolution * 10f);
+            float t = 0;
+            while (t <= 1)
+            {
+                t += 1f / divisions;
+                Vector2 pointOnCurve = Bezier.EvaluateCubic(p[0], p[1], p[2], p[3], t);
+                dstSinceLastEvenPoint += Vector2.Distance(previousPoint, pointOnCurve);
+                while(dstSinceLastEvenPoint >= spacing)
+                {
+                    float overShootDst = dstSinceLastEvenPoint - spacing;
+                    Vector2 newEvenlySpacedPoint = pointOnCurve + (previousPoint - pointOnCurve).normalized * overShootDst;
+                    evenlySpacedPoints.Add(newEvenlySpacedPoint);
+                    dstSinceLastEvenPoint = overShootDst;
+                    previousPoint = newEvenlySpacedPoint;
+                }
+                previousPoint = pointOnCurve;
+            }
+        }
+        return evenlySpacedPoints.ToArray();
+    }
+```
+- BezierMobingPlatform
+```
+    void Start()
+    {
+        pathCreator = GetComponent<PathCreator>();
+        points = pathCreator.path.CalculateEvenlySpacedPoints(spacing, resolution);
+        //foreach(Vector2 p in points)
+        //{
+        //    GameObject g = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        //    g.transform.position = p;
+        //    g.transform.localScale = Vector3.one * spacing * 0.5f;
+        //}
+    }
+```
