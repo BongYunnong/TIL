@@ -1,5 +1,5 @@
 # My Fault - 스스로 불러온 재앙
-
+------------------
 ## ProjectName.Build.cs
 - Destructible같은 plugin 사용한 후에는 이것을 확인해보자
 - UMG, AI 같은 것도 여기에서 추가해주어야한다.
@@ -93,7 +93,7 @@ void APrototypeGameMode::HandleNewState(EPrototypePlayState NewState)
 	}
 }
 ```
-
+-----------------------------
 ## Constructor
 - 여기서 만든 것들이 블루프린트로 승격했을 때의 초기설정이 된다.
 - 이 생성자를 바꾸면 이 영향을 받는 블루프린트도 재 컴파일되어서 구조가 변경될 수 있다.
@@ -104,6 +104,35 @@ APickup::APickup()
 	PrimaryActorTick.bCanEverTick = false;
 	PickupMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("PickupMesh"));
 	RootComponent = PickupMesh;
+}
+```
+## SetupPlayerInputComponent
+- Player의 Input binding같은 것을 담당
+```C++
+- header -
+virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+- cpp -
+void AMyTestCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+{
+	check(PlayerInputComponent);
+	PlayerInputComponent->BindAxis("MoveForward", this, &AMyTestCharacter::MoveForward);
+	PlayerInputComponent->BindAxis("MoveRight", this, &AMyTestCharacter::MoveRight);
+
+	PlayerInputComponent->BindAction("Attack", IE_Released, this, &AMyTestCharacter::Attack_Melee);
+}
+```
+
+## PostInitializeComponents
+- Actor가 Initailze를 끝난 후에 실행된다.
+- 게임 플레이 도중에만 실행이 가능하다.
+```C++
+- header -
+virtual void PostInitializeComponents() override;
+- cpp -
+void AMyTestCharacter::PostInitializeComponents()
+{
+	Super::PostInitializeComponents();
+	SpawnDefaultInventory();
 }
 ```
 
@@ -195,10 +224,15 @@ APrototypeCharacter* player = Cast<APrototypeCharacter>(UGameplayStatics::GetPla
 ```
 
 ## Log
+- UE Log는 OutputLog를 통해 볼 수 있는 것.
+- Gengine->AddOnScreenDebugMessage는 screen위에 띄워주는 것
 ``` C++
 UE_LOG(LogTemp, Log, TEXT("Non Destructible"));
 ...
 UE_LOG(LogTemp, Log, TEXT("You have Collected %s"), *PickupDebugString);
+...
+GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Red, "AppyDamage!");
+
 ```
 
 ## SweepMultiByChannel
@@ -296,3 +330,194 @@ UKismetMathLibrary::RandomPointInBoundingBox(FVector _origin_, FVector _extent);
 ![image](https://user-images.githubusercontent.com/11372675/149047409-affd4a40-f4f4-4684-b97b-a0eb2662be22.png)
 
 - HUD Tick같은 곳에서 Get Dynamic Material -> Set Scalar Parameter Value(Prameter Name 정해주기)
+
+---------------------------
+## On Overlap Begin
+``` C++
+- header -
+UFUNCTION()
+	void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+- cpp -
+void AMyTestActor::OnOverlapBegin(UPrimitiveComponent* OverlapeedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) {
+	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("OnOverlapBegin"));
+	if (OtherActor->IsA(AMyTestCharacter::StaticClass())) {
+		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), ParticleFX, GetActorLocation());
+		Destroy();
+	}
+}
+```
+
+## Notify Begin overlap
+``` C++
+-header-
+virtual void NotifyActorBeginOverlap(AActor* OtherActor)override;
+...
+-cpp
+void AMyTestWeapon::NotifyActorBeginOverlap(AActor* OtherActor) {
+	if (OtherActor->IsA(AActor::StaticClass()) && MyPawn->isDuringAttack && OtherActor!=MyPawn) {
+		GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Red, "AppyDamage!");
+
+		UGameplayStatics::ApplyDamage(OtherActor, 10.0f, NULL, this, UDamageType::StaticClass());
+
+		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), HitFX, GetActorLocation());
+	}
+}
+```
+
+## ApplyDamage
+- Damage라는 속성이 이미 GameplayStatics에 있음
+- static float UGameplayStatics::ApplyDamage(AActor* DamagedActor, float BaseDamage, AController* EventInstigator, AActor* DamageCauser, TSubclassOf<UDamageType> DamageTypeClass)
+``` C++
+UGameplayStatics::ApplyDamage(OtherActor, 10.0f, NULL, this, UDamageType::StaticClass());
+```
+
+## Die
+```C++
+- header -
+virtual void Die(float KillingDamage, struct FDamageEvent const& DamageEvent, AController* Killer, AActor* DamageCauser);
+- cpp -
+void ABasicCharacter::Die(float KillingDamage, FDamageEvent const& DamageEvent, AController* Killer, AActor* DamageCauser)
+{
+	myHealth = FMath::Min(0.0f, myHealth);
+	UDamageType const* const DamageType = DamageEvent.DamageTypeClass ?
+		Cast<const UDamageType>(DamageEvent.DamageTypeClass->GetDefaultObject())
+		: GetDefault<UDamageType>();
+	Killer = GetDamageInstigator(Killer, *DamageType);
+	GetWorldTimerManager().ClearAllTimersForObject(this);
+
+	if (GetCapsuleComponent()) {
+		GetCapsuleComponent()->BodyInstance.SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		GetCapsuleComponent()->BodyInstance.SetResponseToChannel(ECC_Pawn,ECR_Ignore);
+		GetCapsuleComponent()->BodyInstance.SetResponseToChannel(ECC_PhysicsBody,ECR_Ignore);
+	}
+	if (GetCharacterMovement()) {
+		GetCharacterMovement()->StopMovementImmediately();
+		GetCharacterMovement()->DisableMovement();
+	}
+	if (Controller != NULL) {
+		Controller->UnPossess();
+	}
+	float DeathAnimDuration = PlayAnimMontage(Death_AnimMontage);
+	FTimerHandle TimerHandle;
+	GetWorldTimerManager().SetTimer(TimerHandle, this, &ABasicCharacter::DeathAnimationEnd, DeathAnimDuration, false);
+}
+void ABasicCharacter::DeathAnimationEnd() {
+	this->SetActorHiddenInGame(true);
+	SetLifeSpan(0.1f);
+}
+- caller - 
+float ABasicCharacter::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstiagtor, AActor* DamageCauser)
+{
+	Die(myGetDamage, DamageEvent, EventInstiagtor, DamageCauser);
+}
+```
+
+
+--------------------
+## AnimMontage
+``` C++
+- header -
+UPROPERTY(EditDefaultsOnly, Category = Pawn)
+	UAnimMontage* AttackCombo_AnimMt;
+UPROPERTY(EditDefaultsOnly, Category = Pawn)
+	UAnimMontage* Death_AnimMontage;
+- cpp -
+PlayAnimMontage(Death_AnimMontage, 1.0f);
+or
+FString PlaySection = "Attack_" + FString::FromInt(tmp_Num);
+PlayAnimMontage(AttackCombo_AnimMt, 1.0f, FName(*PlaySection));
+```
+- Montage를 부분부분 나누면 그 section의 이름을 통해 그 시작부분부터 play가 가능하다.
+
+
+## AnimNotify
+- Unity의 Animation Event같은 느낌
+- Animation에 Notify를 줄 수 있는데, 
+```C++
+- header-
+UCLASS()
+class MYTESTPROJECT_API UMyTestAnimNotifyState : public UAnimNotifyState{
+	GENERATED_BODY()
+public:
+	virtual void NotifyBegin(USkeletalMeshComponent* MeshComp, UAnimSequenceBase* Animation, float TotalDuration)override;
+	virtual void NotifyEnd(USkeletalMeshComponent* MeshComp, UAnimSequenceBase* Animation)override;
+};
+- cpp -
+void UMyTestAnimNotifyState::NotifyBegin(USkeletalMeshComponent* MeshComp, UAnimSequenceBase* Animation, float TotalDuration) {
+	//GEngine->AddOnScreenDebugMessage(-1, 0.5f, FColor::Magenta, __FUNCTION__);
+	if (MeshComp != NULL && MeshComp->GetOwner() != NULL) {
+		ABasicCharacter* Player = Cast<ABasicCharacter>(MeshComp->GetOwner());
+		if (Player != NULL) {
+			//player->ShowFX();
+			Player->isDuringAttack = true;
+		}
+	}
+}
+
+void UMyTestAnimNotifyState::NotifyEnd(USkeletalMeshComponent* MeshComp, UAnimSequenceBase* Animation) {
+	//GEngine->AddOnScreenDebugMessage(-1, 0.5f, FColor::Cyan, __FUNCTION__);
+	if (MeshComp != NULL && MeshComp->GetOwner() != NULL) {
+		ABasicCharacter* Player = Cast<ABasicCharacter>(MeshComp->GetOwner());
+		if (Player != NULL) {
+			Player->Attack_Melee_End();
+			Player->isDuringAttack = false;
+		}
+	}
+}
+```
+![image](https://user-images.githubusercontent.com/11372675/149083268-31b4c175-cb14-4915-b873-5c8406bdfd1b.png)
+- Montage Asset을 만들고, 부분부분 나눈 후에 Notify의 start, end를 설정
+	- Notify Start, Notify End 함수가 호출
+
+--------------------
+## Particle FX
+``` C++
+- header -
+UPROPERTY(EditDefaultsOnly, Category = "MyFX")
+	UParticleSystem* HitFX;
+- cpp -
+static ConstructorHelpers::FObjectFinder<UParticleSystem>ParticleAsset(TEXT("ParticleSystem'/Game/StarterContent/Particles/P_Explosion.P_Explosion'"));
+	HitFX = ParticleAsset.Object;
+...
+UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), HitFX, GetActorLocation());
+```
+
+
+-------------
+## Struct
+``` C++
+#include "Engine/DataTable.h"
+
+USTRUCT(BlueprintType)
+struct FCharacterInfo : public FTableRowBase {
+	GENERATED_BODY()
+public:
+	FCharacterInfo() {
+		CharacterName = FText::FromString("Name");
+		CharacterLevel = 1;
+		Description = FText::FromString("Your Character is ....");
+	}
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FName CharacterID;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FText CharacterName;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UTexture2D* CharacterThumbnail;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32 CharacterLevel;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FText Description;
+};
+```
+
+## DataTable
+- 위처럼 Struct를 만든 후에는 DataTable Asset을 만들 수 있다.
+	![image](https://user-images.githubusercontent.com/11372675/149086010-053f0c5a-8b1e-431b-b312-9d3d2257944b.png)
+	- RowName으로 블루프린트에서 접근을 하니, 잘 생각해서 수정하자.
+- 그 활용은 다음과 같다
+![image](https://user-images.githubusercontent.com/11372675/149085889-563f0488-ed46-4302-80e9-a2b9149a30dd.png)
