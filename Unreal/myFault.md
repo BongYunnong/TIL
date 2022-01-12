@@ -286,3 +286,13 @@ FVector SpawnExtent = WhereToSpawn->GetScaledBoxExtent();
 ``` C++
 UKismetMathLibrary::RandomPointInBoundingBox(FVector _origin_, FVector _extent);
 ```
+
+
+## Circular Progress
+- Unity처럼 그냥 Image fill amount로 하는 것이 아니다.
+- Texture를 Import한 후에 Compression Setting을 'UserInterface2D(RGBA)'로 바꿔주고, Level Of Detail탭에서 Texture Group을 UI로 바꿔준다.
+- 새로운 매터리얼을 만들어주고 다음과 같이 노드를 작성한다.
+
+![image](https://user-images.githubusercontent.com/11372675/149047409-affd4a40-f4f4-4684-b97b-a0eb2662be22.png)
+
+- HUD Tick같은 곳에서 Get Dynamic Material -> Set Scalar Parameter Value(Prameter Name 정해주기)
