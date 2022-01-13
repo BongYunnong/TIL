@@ -521,3 +521,45 @@ public:
 	- RowName으로 블루프린트에서 접근을 하니, 잘 생각해서 수정하자.
 - 그 활용은 다음과 같다
 ![image](https://user-images.githubusercontent.com/11372675/149085889-563f0488-ed46-4302-80e9-a2b9149a30dd.png)
+
+--------------------------
+## Widget Designer Tab
+- Widget을 상속받은 C++ Class에서부터 바로 Blueprint를 만들어내면 Designer탭이 없음
+- 이것은 그냥 브라우저에서 블루프린트를 생성하고, 거기에서 class를 선택해야한다.
+
+## Widget Constructor
+- Widget class를 그냥 다른 actor 생성자처럼 만들려고 하면 에러가 뜸
+```
+- header-
+UMenuWidgetBase(const FObjectInitializer &ObjectInitializer);
+- cpp -
+UMenuWidgetBase::UMenuWidgetBase(const FObjectInitializer &ObjectInitializer)
+	: Super(ObjectInitializer)
+{
+}
+```
+or
+```
+- header-
+void NativeConstruct() override;
+- cpp-
+void UHealthBar::NativeConstruct(){
+}
+```
+
+## Widget can't have children
+- BP를 만들어서 열어보면 Graph에 아무것도 없을 수 있다.
+- 그런데 뭔가를 추가하려고 하면 can't add child라고 한다.
+- 이것은 Named Slot을 넣거나 CanvasPanel를 필요로 하기 때문이다.
+- C++ class에서 미리 canvasPanel을 정의하고, BP로 넘어와서 그것의 이름에 맞게 CanvasPanel을 추가해주면 그 다음부터는 평범한 BP처럼 넣을 수 있다.
+
+## World? Screen?
+- 3D 월드 상에 있는 Text가 항상 Camera를 보고 싶게 하고 싶다면 Detail->UserInterface->Space를 World에서 Screen으로 바꾸면 된다.
+- 원래는 SceneComponent에 넣고 그걸 돌렸는데, 굳이 안 그래도 될듯..
+---------------------------
+## LineTrace
+- Line Trace를 ECC_Visibility로 하면 Widget까지 Trace하는 수가 있다.
+	- player의 Health Bar가 계속 충돌하는 바람에 문제가 있었음
+- 이것을 방지하려면 ECC_WorldStatic으로 하면 된다.
+	- StaticMesh가 Static으로 들어가서 되는듯
+	- 그러면 Trigger같은 것은...? 되려나?
