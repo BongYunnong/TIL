@@ -150,3 +150,5 @@ x_{21} & x_{22} & x_{23}
 $$\Theta = \begin{pmatrix}\alpha & \beta\\
 \gamma & \delta
 \end{pmatrix}$$
+
+ $\overrightarrow{v}$ X $\overrightarrow{w}$ = $\overrightarrow{p}$
