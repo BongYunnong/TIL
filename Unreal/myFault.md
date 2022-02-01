@@ -563,3 +563,8 @@ void UHealthBar::NativeConstruct(){
 - 이것을 방지하려면 ECC_WorldStatic으로 하면 된다.
 	- StaticMesh가 Static으로 들어가서 되는듯
 	- 그러면 Trigger같은 것은...? 되려나?
+
+---------------------
+## UCLASS(config=game)
+- config 지정자로 선언된 언리얼 오브젝트(UCLASS(config=aaa)로 선언된 클래스)의 멤버 변수가 UPROPERTY(config)로 지정되면 해당 aaa.ini로부터 기본값을 읽어온다.
+- 예를 들어서 float score 멤버변수가 지정되었다면 ini에서 score를 찾아 값을 읽어옴

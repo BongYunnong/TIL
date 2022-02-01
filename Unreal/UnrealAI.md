@@ -1,0 +1,48 @@
+# 언리얼 AI
+## Gameplay Framework
+- 폰 : 월드의 에이전트가 될 수 있고, 컨트롤러에 빙의될 수 있음
+- 컨트롤러 : 영혼같은 것으로, 행동 규칙을 정할 수 있음
+- 비헤이비어트리 : 컨트롤러 내에서 두뇌 역할을 실행
+    - 한정된 수의 작업 간 전환을 설명
+    - 개발자가 단순한 작업들로 구성된 매우 복잡한 로직을 만들 수 있음
+    - 노드 계층구조로 의사결정 흐름 구현
+    - 위에서 아래로, 왼쪽에서 오른쪽으로 실행
+    - 구성
+        - Composites
+            - 브랜치의 루트와 브랜치 실행 방식의 기본 규칙 정의
+            - Flow Nodes
+                - Sequence : 자손이나 브랜치 중 하나가 작동하지 않을 때까지 순서대로 모두 실행
+                    - 어떤 task가 작동하지 않으면 브랜치 작업 전체를 취소해야 할 때 사용
+                - Selector : 실패하지 않는 첫 번째 자손을 찾아서 실행
+                    - 어떤 게 필요할지 결정한 다음 실행할 작업이나 브랜치를 각종 파라미터에 따라 선택할 때 더욱 유용
+        - Decorators
+            - 일종의 조건식
+            - 트리나 단일 노드 내의 브랜치의 실행 가능 여부 정의
+        - Services
+            - 자신의 브랜치가 실행되는 동안 정의된 빈도대로 실행됨
+        - Tasks
+            - 실제 작업을 하는 노드
+            - decorator나 service를 붙일 수 있음
+- 블랙보드 : 비헤이비어 트리가 결정을 내릴 수 있게 데이터 제공
+    - 데이터를 저장할 수 있음
+    - 의사결정에 사용됨
+    - 일부 변수는 AI 엔티티 다수에 적용될수도 있음
+    - 비헤이비어트리가 실행되는데에 필수적인 것은 아님
+
+- 시작하기
+    - 원하는 Pawn의 블루프린트에서 Pawn -> AI Controller Class 설정
+    - 비헤이비어 트리 생성(EnemyBT)
+    - AI controller를 만들어서 Event BeginPlay -> Run Behavior tree 실행
+    - 비헤이비어트리 수정
+        - Root -> Sequence -> Wait,Moveto,Wait
+            - 이것은 fail하는데, 그 이유는 vector변수가 없기 때문
+            - 블랙 보드를 만들어서 vector변수를 만들어야함
+            - 블랙보드 생성 후, 비헤이비어트리 디테일 패널에서 블랙보드 설정
+            - 블랙보드에서 New key(vector)생성
+            - BTTask_blueprintbase기반으로 새 블루프린트 오브젝트 생성
+            - MyBlueprint탭에서 Functions -> Override -> Receive Execute AI
+                - Set Blackboard value as vector
+                - new variable(Blackboard Key)
+                - controlledPawn -> GetActorLocation -> GetRandomPointInNavigatibleRadius(radius도 변수로) -> Set blackboard value as vector -> Finish Execute
+                - blackboard key, radius는 public 및 visible 상태
+            - 비헤이비어 트리에서 sequence 하위에 Task Get Random Location 생성
