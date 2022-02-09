@@ -568,3 +568,24 @@ void UHealthBar::NativeConstruct(){
 ## UCLASS(config=game)
 - config 지정자로 선언된 언리얼 오브젝트(UCLASS(config=aaa)로 선언된 클래스)의 멤버 변수가 UPROPERTY(config)로 지정되면 해당 aaa.ini로부터 기본값을 읽어온다.
 - 예를 들어서 float score 멤버변수가 지정되었다면 ini에서 score를 찾아 값을 읽어옴
+
+
+----------------------
+## 파일 이름 변경하기
+1. 바꾸려는 클래스의 이름을 선택 후에 Ctrl + H(치환 단축키) 사용
+	- ctrl + R도 괜찮
+	- 주의할 것은 AMyActor 이렇게 있으면 A는 뺴고 MyActor만 바꾸자
+2. 바꾸려는 클래스 이름을 박스에 넣고 모두 바꾸기를 누르기
+	- 단축키(alt + a)도 가능
+3. 솔루션 탐색기의 이름도 바꿔주자
+	- header파일에서도 바꿔줘야함
+4. 컴파일 하고 프로젝트를 닫은 뒤 generate visual sutudio files 해주기
+
+
+---------------------
+## Float to String
+- FString::SanitizeFloat
+
+---------------
+## Circular Dependency
+- 갑자기 include를 했는데도 못 찾겠다고 난리치면 Circular Dependency를 의심해보자
