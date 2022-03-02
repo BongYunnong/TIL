@@ -3,6 +3,7 @@
         "iostream": "cpp",
         "ios": "cpp",
         "functional": "cpp",
-        "xlocale": "cpp"
+        "xlocale": "cpp",
+        "ostream": "cpp"
     }
 }
