@@ -4,6 +4,7 @@
         "ios": "cpp",
         "functional": "cpp",
         "xlocale": "cpp",
-        "ostream": "cpp"
+        "ostream": "cpp",
+        "xstring": "cpp"
     }
 }
