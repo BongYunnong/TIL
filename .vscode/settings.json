@@ -5,6 +5,8 @@
         "functional": "cpp",
         "xlocale": "cpp",
         "ostream": "cpp",
-        "xstring": "cpp"
+        "xstring": "cpp",
+        "utility": "cpp",
+        "cstdlib": "cpp"
     }
 }
