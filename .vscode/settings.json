@@ -19,6 +19,8 @@
         "initializer_list": "cpp",
         "xhash": "cpp",
         "xtree": "cpp",
-        "stack": "cpp"
+        "stack": "cpp",
+        "tuple": "cpp",
+        "algorithm": "cpp"
     }
 }
