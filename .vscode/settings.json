@@ -21,6 +21,7 @@
         "xtree": "cpp",
         "stack": "cpp",
         "tuple": "cpp",
-        "algorithm": "cpp"
+        "algorithm": "cpp",
+        "random": "cpp"
     }
 }
