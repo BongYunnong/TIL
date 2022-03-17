@@ -22,7 +22,10 @@
         "stack": "cpp",
         "tuple": "cpp",
         "algorithm": "cpp",
-        "random": "cpp"
+        "random": "cpp",
+        "queue": "cpp",
+        "sstream": "cpp",
+        "xlocinfo": "cpp"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }
