@@ -25,7 +25,8 @@
         "random": "cpp",
         "queue": "cpp",
         "sstream": "cpp",
-        "xlocinfo": "cpp"
+        "xlocinfo": "cpp",
+        "istream": "cpp"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }
