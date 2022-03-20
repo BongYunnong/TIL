@@ -252,7 +252,7 @@ int main(){
     // 완성된 힙 정렬
     for(int i=number-1; i>=0 ; i--){
         int temp = heap[0];
-        heap[0] = heap[1];
+        heap[0] = heap[i];
         heap[i] = temp;
         // 첫번째와 마지막 바꾸기
         int root= 0;
