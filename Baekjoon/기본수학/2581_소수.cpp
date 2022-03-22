@@ -1,3 +1,8 @@
+// https://www.acmicpc.net/problem/2581
+// M이상 N 이하의 자연수 중 소수인 것을 골라 이들 소수의 합과 최솟값을 찾자.
+// 1929번 처럼 소수를 구한 후
+// 그 소수들의 합, 최솟값 계산
+
 #include<iostream>
 using namespace std;
 int main(){

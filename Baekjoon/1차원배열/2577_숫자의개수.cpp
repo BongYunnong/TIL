@@ -9,6 +9,7 @@ int main(){
 
     long tmp = a*b*c;
 
+    // 각 자리의 숫자를 구하기 위해서 10으로 나눈 나머지와 몫을 활용한다.
     while(tmp>0){
         count[tmp%10]++;
         tmp/=10;

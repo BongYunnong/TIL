@@ -1,3 +1,6 @@
+// https://www.acmicpc.net/problem/1978
+// 1929번 처럼 최댓값까지 모든 값을 다 곱해서 나온 수를 counting한다.
+// 그리고 input을 입력받으면서 해당 index의 counting이 2일 경우 소수이므로 result를 증가시킨다.
 #include<iostream>
 using namespace std;
 int main(){
