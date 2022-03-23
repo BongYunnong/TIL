@@ -1,3 +1,8 @@
+//https://www.acmicpc.net/problem/11054
+// 11053_가장긴증가하는부분수열을 푼 다음에는 쉽게 풀 수 있다.
+// 가장 긴 증가하는 부분수열과 가장 긴 감소하는 부분수열을 각각 구한다.
+// 두 F(N)+G(N)을 해서 가장 큰 값 -1(N 원소가 겹칠테니)을 하면 된다.
+
 #include<iostream>
 using namespace std;
 

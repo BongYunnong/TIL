@@ -1,3 +1,8 @@
+// https://www.acmicpc.net/problem/1003
+
+// 문제에서 finbonacci를 구현해서 제시해준다.
+// 우리가 할 것은 0과 1이 몇번 출력되는지 이므로, fibonacci 안에서 0과 1이 출력될때마다 count해주면 된다.
+
 #include <iostream>
 using namespace std;
 
