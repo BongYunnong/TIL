@@ -1,3 +1,6 @@
+// https://www.acmicpc.net/problem/2908
+// 두 수 A,B가 주어졌을 때, 각 숫자를 거꾸로 읽어서 큰 숫자를 출력
+
 #include<iostream>
 #include<string>
 using namespace std;
@@ -9,7 +12,7 @@ string swap13(string _s){
     return _s;
 }
 int main(){
-    /* 무식한 방법
+    /* 무식한 방법 -> 3자리수이기에 가능함
     string a;
     string b;
     cin>>a>>b;
@@ -29,6 +32,8 @@ int main(){
    string b;
    cin>>a>>b;
 
+    // 이것도 사실 3자릿수라서 가능했을듯?
+    // string은 일종의 배열이기에, 그냥 함수에 넣어줘도 함수 안에서의 변동사항이 적용됨
    if(stoi(swap13(a))>stoi(swap13(b))){
        cout<<swap13(a);
    }else{
