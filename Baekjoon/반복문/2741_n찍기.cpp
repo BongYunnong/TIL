@@ -1,3 +1,6 @@
+// https://www.acmicpc.net/problem/2741
+// N이 주어졌을 때, 1부터 N까지 한 줄에 하나씩 출력
+
 #include <iostream>
 using namespace std;
 int main(){

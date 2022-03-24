@@ -1,3 +1,13 @@
+// https://www.acmicpc.net/problem/2439
+// 별 N개를 찍되, 오른쪽 기준으로 정렬하기
+
+//    *
+//   **
+//  ***
+// ****
+//*****
+
+// N-i만큼 공백을 주면 됨
 #include <iostream>
 using namespace std;
 int main(){

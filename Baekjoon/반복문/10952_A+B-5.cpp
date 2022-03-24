@@ -1,3 +1,5 @@
+// https://www.acmicpc.net/problem/10952
+// 두 정수 A와 B를 입력받은 후 A+B 출력
 #include <iostream>
 using namespace std;
 int main(){
