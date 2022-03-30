@@ -279,7 +279,7 @@ void dijkstra(int n, const number W[][], set_of_edges& F){
                 touch[i] = vnear;
             }
         }
-        length[vnear] = =1;
+        length[vnear] = 1;
     }
 }
 ```

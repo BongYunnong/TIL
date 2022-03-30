@@ -27,7 +27,8 @@
         "sstream": "cpp",
         "xlocinfo": "cpp",
         "istream": "cpp",
-        "iterator": "cpp"
+        "iterator": "cpp",
+        "limits": "cpp"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }
