@@ -28,7 +28,9 @@
         "xlocinfo": "cpp",
         "istream": "cpp",
         "iterator": "cpp",
-        "limits": "cpp"
+        "limits": "cpp",
+        "xiosbase": "cpp",
+        "map": "cpp"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }
