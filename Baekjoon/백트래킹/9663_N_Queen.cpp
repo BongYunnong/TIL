@@ -1,3 +1,6 @@
+// https://www.acmicpc.net/problem/9663
+// 퀸은 한 줄에 하나밖에 놓을 수 없다.
+
 #include<iostream>
 using namespace std;
 
@@ -8,13 +11,19 @@ void dfs(int count){
     if(count==N){
         result++;
     }else{
+        // 퀸은 한 줄에 하나밖에 넣을 수 없기에 N번 반복하는 for문 -> 하나씩 다 넣어봄
+        // arr[x]는 x의 행, arr[x]의 열에 퀸을 놓겠다는 뜻 
 	    for(int i=0;i<N;i++){
 	    	bool canDo=true;
 	    	arr[count]=i;
+
+            // 퀸을 같은 열에 놓거나, 기울기가 1이 되어버리면 못 놓음
 	    	for(int j=0;j<count;j++){
 	    		if(arr[j]==arr[count] || abs(arr[count]-arr[j])==count-j)
 	    			canDo= false;
 	    	}
+
+            // 놓을 수 있으면 다음 퀸 도전
 	    	if(canDo)
 				dfs(count+1);
 	    }

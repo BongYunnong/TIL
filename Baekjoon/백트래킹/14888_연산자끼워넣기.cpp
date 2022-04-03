@@ -1,3 +1,4 @@
+// https://www.acmicpc.net/problem/14888
 #include <iostream>
 using namespace std;
 
@@ -15,7 +16,9 @@ int* currOperator;
 void dfs(int index){
     //cout<<"[dfs] : "<<index<<'\n';
     if(index== N-1){
+        // 마지막 index에 도달했을 때, 한번에 계산하기
         currResult=arr[0];
+        // 저장된 currOpeartor를 다 돌면서 계산
         for(int i=0;i<N-1;i++){
             //cout<<"currResult : "<<currResult<<'_'<<arr[i+1]<<'_'<<currOperator[i]<<'\n';
             switch (currOperator[i])
@@ -46,11 +49,15 @@ void dfs(int index){
     }
     
     for(int i=0;i<4;i++){
+        // 사용 가능한 operator가 있으면 사용
         if(oper[i]>0){
             oper[i]--;
+            // currOperator는 중간중간에 넣는 연산자임
             currOperator[index] = i;
             //cout<<"oper.. : "<<currOperator[index]<<'\n';
             dfs(index+1);
+
+            // dfs를 한 후에는 초기화를 위해서 ++
             oper[i]++;
         }
     }
