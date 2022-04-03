@@ -1,3 +1,8 @@
+// https://www.acmicpc.net/problem/14889
+// N명의 사람을 둘로 나누어서 팀을 정하는데, 능력치 차이가 최소가 되도록 만든다.
+// input은 시너지이다.
+
+
 #include<iostream>
 using namespace std;
 
@@ -12,6 +17,7 @@ int result=10000000;
 void dfs(int startIndex,int index){
     //cout<<"[dfs]:"<<index<<'_'<<(N/2 -1)<<'\n';
     if(index==N/2){
+        // 반절만큼 팀을 꾸렸을 때, 결과 계산
         int mean1=0;
         int mean2=0;
         //cout<<"Team1";
@@ -42,6 +48,7 @@ void dfs(int startIndex,int index){
     for(int i=startIndex;i<N;i++){
         if(currTeam1[i]==false){
             currTeam1[i] = true;
+            // 무작정 하나씩 team1에 넣어보기
             dfs(i+1,index+1);
             currTeam1[i]=false;
         }
