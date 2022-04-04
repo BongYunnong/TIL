@@ -1,30 +1,37 @@
-#include<iostream>
-#include<vector>
-using namespace std;
+// https://www.acmicpc.net/problem/1629
+// 지수법칙과 모듈러 성질은 꼭 숙지해야만 한다.
 
 // #지수법칙
 // a^(n+m) = a^n * a^m;
 // 모듈러 성질
 // (a*b)%c = (a%c*b%c)%c
 
+#include<iostream>
+#include<vector>
+using namespace std;
+
+
 int A,B,C;
 
 long long Remain(long long x){
     if(x==0)
         return 0;
-    if(x==1)
+    if(x==1)    // 지수가 1 남는다면 A%C임
         return A%C;
-    long long y = Remain(x/2)%C;
-    y = (y*y)%C;
+    long long y = Remain(x/2)%C;    // 지수를 둘로 쪼개기 (A^n)%C과 같음
     if(x%2==0)  // 짝수라면 그대로 계산
-        return y;
+        return (y*y)%C;
     else    // 홀수라면 한번 더 계산
-        return y*A%C;
+        return (y* (y*A))%C;
 }
 int main(){
     cin>>A>>B>>C;
-    cout<<Remain(B);
+    cout<<Remain(B);    
+    // remain(B)는 A^B % C임
+    // B= n+m일때 지수법칙에 의해서, remain(B) = (A^n * A^m)%C
+    // 모듈러 성질에 의해서, remain(B) = ((A^n)%C * (A^m)%C)%C
 }
+
 /* 시간초과 되었다가 틀림
 vector<pair<int,int>> remains;//index,value
 

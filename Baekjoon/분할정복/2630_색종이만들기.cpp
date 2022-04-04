@@ -1,3 +1,7 @@
+// https://www.acmicpc.net/problem/2630
+
+// 쿼드트리와 비슷함
+// 다른 점은 결과를 바로 출력하는가, 아니면 그 숫자를 count하는가이다.
 #include<iostream>
 using namespace std;
 

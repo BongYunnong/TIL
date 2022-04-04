@@ -1,6 +1,7 @@
-#include<iostream>
+// https://www.acmicpc.net/problem/11401
 
-using namespace std;
+// 자연수 N과 정수 K가 주어졌을 때 이항 계수 (N,K)를 1,000,000,007로 나눈 나머지
+// 22-04-04 아직 이해 못함
 
 // 페르마 소정리
 // p가 소수이고 a가 p의 배수가 아니면, a^(p-1) = 1(mod p)이다.
@@ -9,6 +10,10 @@ using namespace std;
 // a*a^(p-2) = 1(mod P)
 // a^(p-2) = a^(-1)*(mod P)
 // a*b^(-1)%P = A*B^(P-2)%P = (A%P)(B^(P-2)%P)%P 
+
+#include<iostream>
+using namespace std;
+
 
 long long N,K,A,B,half;
 long long mod = 1000000007;
