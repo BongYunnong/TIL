@@ -7,7 +7,7 @@
 // 마지막 계단을 꼭 밟아야하므로 F(N)은 N을 밟았을 때 얻을 수 있는 점수의 최댓값이다.
 // F(N) = max(F(N-3)+arr[N-1]+arr[N], F(N-3)+arr[N-2]+arr[N])인데, F(N-3)+arr[N-2]는 F(N-2)이므로
 // F(N) =  max(F(N-3)+arr[N-1]+arr[N], F(N-2)+arr[N])이다.
-// 만약 마지막 계단을 안 밟아도 된다고 하면 F(N) = max(F(N-3)+arr[N-1]+arr[N], F(N-2)+arr[N], F(N-1))이다.
+// 만약 마지막 계단을 안 밟아도 된다고 하면 F(N) = max(F(N-3)+arr[N-1]+arr[N], max(F(N-2)+arr[N], F(N-1)))이다.
 
 #include <iostream>
 using namespace std;

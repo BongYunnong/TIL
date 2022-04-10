@@ -33,14 +33,11 @@ int Recursive(int a,int b,int c){
             return result[a+50][b+50][c+50];
         }else{
             if(a>20 || b>20 || c>20){
-                result[a+50][b+50][c+50] =Recursive(20,20,20);
-                return result[a+50][b+50][c+50];
+                return result[a+50][b+50][c+50]=Recursive(20,20,20);
             }else if(a<b && b<c){
-                result[a+50][b+50][c+50] =Recursive(a,b,c-1) + Recursive(a,b-1,c-1) - Recursive(a,b-1,c);
-                return result[a+50][b+50][c+50];
+                return result[a+50][b+50][c+50]=Recursive(a,b,c-1) + Recursive(a,b-1,c-1) - Recursive(a,b-1,c);
             }else{
-                result[a+50][b+50][c+50] =Recursive(a-1,b,c) + Recursive(a-1,b-1,c) + Recursive(a-1,b,c-1) - Recursive(a-1,b-1,c-1);
-                return result[a+50][b+50][c+50];
+                return result[a+50][b+50][c+50]=Recursive(a-1,b,c) + Recursive(a-1,b-1,c) + Recursive(a-1,b,c-1) - Recursive(a-1,b-1,c-1);
             }
         }
     }

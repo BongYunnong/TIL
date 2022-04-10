@@ -1,6 +1,7 @@
 // https://www.acmicpc.net/problem/11053
 // 수열 A가 주어졌을 때 가장 긴 증가하는 부분수열의 길이를 구하자.
 
+// F(N) = N을 사용했을 때 가장 긴 부분수열의 길이
 // F(N) = 1~N-1까지의 F중, N번째 값보다 작은 숫자들이 갖는 부분수열의 길이 중, 가장 길이가 긴 부분수열의 길이에 +1한 값.
 
 #include<iostream>
@@ -22,7 +23,7 @@ int main(){
         // 현재 index보다 작은 index의 값들을 업데이트 해주자.
         for(int j=i-1;j>=1;j--){
             // 현재 index 값보다 작은 숫자의 index를 마지막으로 갖는 값은 +1을 하여 증가시킬 수 있다.
-            // 하지만 현재 index값을 쓰지 않아도 더 길게 만들 수 있다면 그 큰 값을 사용하는 것이 맞다.
+            // j중에 가장 긴 값을 찾기 위해 max를 돌려야함
             if(arr[i]>arr[j]){
                 results[i] = max(results[i],results[j]+1);
             }

@@ -14,8 +14,9 @@ int main(){
     int dist = A-B;
 
     // 마지막에 A만큼 올라가면 밤에 내려오는 것을 생각하지 않아도 된다.
-    // 왜 A를 딱 자르느냐 하면 어차피 dist로 나눌 때 Calculated를 넘어가지 않는 최대 값으로 계산되기 떄문에
+    // 왜 A를 딱 자르느냐 하면 어차피 dist로 나눌 때 Calculated를 넘어가지 않는 최대 값으로 계산되기 떄문에 
     // calculatedV % dist가 0이 아니라면 calculatedV/dist보다 한 밤을 더 계산해내야한다.
+    // 결국, 완벽하게 딱 올라가는 것과, 완벽하지 않아서 한 번 쉬었다가 올라가는 경우 2개의 경우밖에 없다.
     int calculatedV = V-A;
     if(calculatedV%dist==0){
         cout<<calculatedV/dist+1;

@@ -27,8 +27,10 @@ int main(){
     results[1] = 1;
     int result=100;
     for(int i=2;i<=n;i++){
+        // 이으려고 하는 전깃줄 이전의 전깃줄을 탐색
         for(int j=i-1;j>=0;j--){
-            // 나의 것이 내 앞에 있는 것들보다 큰데 results가 작게 되어있으면 results update
+            // 교차하지 않는데 results가 이전 것보다 작거나 같으면 results update
+            // 교차하지 않는데 results가 이전 것보다 크다면, 그대로 가져가야함
             if(lines[i].second>lines[j].second){
                 if(results[i]<=results[j]){
                     results[i] = results[j]+1;
@@ -38,6 +40,7 @@ int main(){
     }
 
     for(int i=1;i<=n;i++){
+        // 이어진 것 빼고는 다 잘라내야하므로 n - resutls[i]
         result = min(result,n-results[i]);
     }
     cout<<result;

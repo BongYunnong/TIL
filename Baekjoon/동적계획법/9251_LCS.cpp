@@ -24,6 +24,8 @@ int main(){
             if(arr[i-1]==arr2[j-1]){
                 results[i][j] = results[i-1][j-1] + 1;
             }else{
+                // 만약 string의 index가 가리키는 값이 다를 경우
+                // 그냥 그 값을 사용하지 않았을 때의 최댓값을 사용하면 된다.
                 results[i][j] = max(results[i-1][j],results[i][j-1]);
             }
         }

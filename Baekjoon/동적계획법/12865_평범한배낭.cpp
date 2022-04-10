@@ -27,8 +27,10 @@ int main(){
 
     for(int i=1;i<=n;i++){
         for(int j=1;j<=k;j++){
+            // i-1번째 것을 선택한 후, i번째 것을 들 지 말 지 선택하는 과정 -> 들 수 있다고 한다면, i-1번째 것에서 무게 stuff[i].first를 뺀 상태에서 stuff[i]를 추가해야함
+            // 만약 그만큼의 공간이 없거나, stuff[i]번째 것을 추가해도 추가 안 한 것보다 못하면 추가하지 않음 (i-1번째 것에 stuff[i]를 추가하는 것이기에, 추가를 하는 것이 별로일 수 있다.)
             if(j>=stuffs[i].first)
-                DP[i][j] = max(DP[i-1][j],DP[i-1][j-stuffs[i].first]+stuffs[i].second);
+                DP[i][j] = max(DP[i-1][j],DP[i-1][j-stuffs[i].first]+stuffs[i].second); 
             else
                 DP[i][j] = DP[i-1][j];
         }

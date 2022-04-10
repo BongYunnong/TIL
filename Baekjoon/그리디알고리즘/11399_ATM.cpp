@@ -1,5 +1,5 @@
 // https://www.acmicpc.net/problem/11399
-// ATM에서 돈을 인출하는데 필요한 시간의 합의 최소값
+// ATM에서 각 사람이 돈을 인출하는데 필요한 시간의 합의 최소값
 
 // 가장 빨리 돈을 인출하는 사람이 먼저 돈을 인출하면 된다.
 #include <iostream>

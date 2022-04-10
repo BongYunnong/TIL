@@ -5,9 +5,9 @@
 // 파도반 수열 P(N) : 나선에 있는 정삼각형 변의 길이 
 // ex. 1, 1, 2, 2, 3, 4, 5, 7, 9
 
-// 직접 써보면 패턴을 파악할 수 있다.
+// 직접 써보면 패턴을 파악할 수 있다. 
 // 1. F(N) = F(N-2) + F(N-3)
-// 2. F(N) = F(N-1) + arr[N-5]
+// 2. F(N) = F(N-1) + F(N-5)
 
 #include<iostream>
 using namespace std;
@@ -36,7 +36,7 @@ int main(){
     }
 }
 
-/* 맞은 코드
+/* 맞은 코드 2
 int T;
 long long* results;
 

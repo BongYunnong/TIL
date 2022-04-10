@@ -22,6 +22,7 @@ int main(){
     for(int i=1;i<=9;i++){
         results[1][i] = 1;
     }
+    // 0으로 시작하는 값은 없음
     results[1][0]=0;
 
 
