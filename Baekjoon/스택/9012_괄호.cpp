@@ -1,3 +1,8 @@
+// https://www.acmicpc.net/problem/9012
+
+// 4949_균형잡힌 세상과 비슷한 문제이다.
+// 오히려 더 쉬운데, 이것은 ()만 생각해주면 된다.
+
 #include<iostream>
 #include<string>
 #include<stack>

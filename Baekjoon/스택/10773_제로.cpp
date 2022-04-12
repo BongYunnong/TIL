@@ -1,3 +1,8 @@
+// https://www.acmicpc.net/problem/10773
+
+// 장부 관리하는데 실수를 하면 0을 외쳐서 최근에 쓴 수를 지우게 함
+// 제대로 된 모든 수의 합은?
+
 #include<iostream>
 #include<stack>
 using namespace std;

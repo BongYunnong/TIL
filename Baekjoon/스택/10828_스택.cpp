@@ -1,3 +1,8 @@
+// https://www.acmicpc.net/problem/10828
+
+// 스택 구현하기
+// index를 활용하면 간단하게 해결 가능하다.
+
 #include<iostream>
 #include<string>
 using namespace std;

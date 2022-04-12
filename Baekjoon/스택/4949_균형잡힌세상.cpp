@@ -1,3 +1,9 @@
+// https://www.acmicpc.net/problem/4949
+
+// 괄호의 시작 부분이 오면 stack에 저장하고, 괄호의 끝 부분이 오면 pop을 하는데, 만약 pop을 한 것이 끝 부분과 매칭되지 않으면 no이다.
+// 문자열을 다 체크했는데 stack이 비어있다면, yes이다.
+// stack도 stack이지만 문자열을 잘 활용해야한다.
+
 #include<iostream>
 #include<stack>
 #include<string>

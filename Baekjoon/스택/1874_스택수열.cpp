@@ -1,3 +1,8 @@
+// https://www.acmicpc.net/problem/1874
+
+// stack이 비어있거나 top이 현재 만들려는 수열 요소보다 작으면 push를 한다.(못 만들 가능성도 있기에, index가 N을 넘어가면 break한다.)
+// 만약 수열 요소와 맞으면 pop을 한다.
+
 #include<iostream>
 #include<stack>
 #include<vector>
