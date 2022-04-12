@@ -1,3 +1,8 @@
+// https://www.acmicpc.net/problem/1018
+
+// 진짜로 하나씩 다 해보는 문제
+// 8X8로 어떻게 자르느냐가 관건인데,
+// (x,y)를 0~N-x, 0~M-y 이렇게 하나씩 체크하면서 8X8개 중 흰색 start로 하면 몇 개를 더 칠해야하는지, 검은색 start로 하면 몇 개를 더 칠해야하는지 계산한다.
 #include<iostream>
 using namespace std;
 
