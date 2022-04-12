@@ -1,3 +1,6 @@
+// https://www.acmicpc.net/problem/11049
+
+// N×M인 행렬 A와 M×K인 B를 곱할 때 필요한 곱셈 연산의 수
 // 이 문제를 풀기 전에 11066 행렬 곱셈 문제를 풀어서 겨우 풀었음
 
 #include<iostream>
@@ -16,7 +19,6 @@ int main(){
     }
 
     for(int j=1;j<K;j++){
-        //tx는 중간의 x
         for(int tx = 1;tx+j<=K;tx++){
             int ty = tx + j;
             dp[tx][ty] = 1000000007;

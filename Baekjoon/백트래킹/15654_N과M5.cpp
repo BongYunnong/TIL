@@ -1,4 +1,10 @@
 // https://www.acmicpc.net/problem/15654
+// 자연수 N과 M이 주어졌을 때, 아래 조건을 만족하는 길이가 M인 수열을 모두 구하는 프로그램을 작성
+// N개의 자연수는 모두 다른 수
+// N개의 자연수 중에서 M개를 고른 수열
+// 수열은 사전 순으로 증가하는 순서로 출력
+
+// 지금까지는 1부터 N까지의 자연수였지만, 지금은 정렬되지 않은 무작위 숫자를 사용해야함
 
 #include<iostream>
 #include<algorithm>
@@ -8,29 +14,24 @@ using namespace std;
 int N,M;
 bool visited[9];
 vector<int> inputs;
-
-
 vector<int> results;
 
-void dfs(int start, int count){
-    if(count==M){
+void dfs(int count){
+    if(count>=M){
         for(int i=0;i<results.size();i++){
             cout<<inputs[results[i]]<<' ';
         }
         cout<<'\n';
         return;
-    }else if(count>M){
-        return;
     }
 
     for(int i=0;i<N;i++){
-        int index = i;
-        if(index !=start && visited[index]==false){
-            visited[index]=true;
+        if(visited[i]==false){
+            visited[i]=true;
             results.push_back(i);
-            dfs(index,count+1);
+            dfs(count+1);
             results.pop_back();
-            visited[index]=false;
+            visited[i]=false;
         }
     }
 }
@@ -52,7 +53,7 @@ int main(){
     for(int i=0;i<N;i++){
         visited[i]=true;
         results.push_back(i);
-        dfs(i,1);
+        dfs(1);
         visited[i]=false;
         results.pop_back();
     }

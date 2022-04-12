@@ -69,7 +69,7 @@ void sudoku(int N){
             return;
         }
     }
-    // 최적의 값을 못 찾았을 경우 값 비워주기
+    // 최적의 값을 못 찾았을 경우 값 비워주기 -> 백트래킹
     board[points[N].first][points[N].second]=0;
     return;
 }

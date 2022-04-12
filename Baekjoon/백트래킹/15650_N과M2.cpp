@@ -10,8 +10,8 @@ using namespace std;
 bool visited[10];
 int arr[10];
 int N,M;
-void FindNext(int index,int currNum){
-    if(index==M){
+void FindNext(int count,int currNum){
+    if(count==M){
         for(int i=0;i<M;i++)
             cout<<arr[i]<<' ';
         cout<<'\n';
@@ -22,9 +22,9 @@ void FindNext(int index,int currNum){
     for(int i=currNum;i<=N;i++){
         if(visited[i]==false){
             visited[i]=true;
-            arr[index]=i;
+            arr[count]=i;
             // 지금 문자열에 넣은 값+1을 인자로 넣어줌
-            FindNext(index+1,i+1);
+            FindNext(count+1,i+1);
             visited[i]=false;
         }
     }

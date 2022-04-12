@@ -7,8 +7,8 @@ using namespace std;
 int arr[10];
 bool lock[10];
 int N,M;
-void FindNext(int index){
-    if(index==M){
+void FindNext(int count){
+    if(count==M){
         // 길이가 M까지 도달하면 결과 출력
         for(int i=0;i<M;i++){
             cout<<arr[i]<<" ";
@@ -19,9 +19,9 @@ void FindNext(int index){
     for(int i=1;i<=N;i++){
         if(lock[i]==false){
             lock[i]=true;
-            arr[index]=i;
-            // 문자열의 index 위치에 i를 넣어보고
-            FindNext(index+1);
+            arr[count]=i;
+            // 문자열의 count 위치에 i를 넣어보고
+            FindNext(count+1);
             // 나중에 다시 참조될 것을 위해서 lock 풀기
             lock[i]=false;
         }

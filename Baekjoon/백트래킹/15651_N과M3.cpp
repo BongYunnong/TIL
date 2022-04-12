@@ -3,7 +3,7 @@
 // 1부터 N까지 자연수 중에서 M개를 고른 수열
 // 같은 수를 여러 번 골라도 된다.
 
-// 이전의 N과 M 문제와 다르게, visited를 사용하지 않는다.
+// 이전의 N과 M 문제와 다르게, visited를 사용하지 않는다.(중복 허용이기때문)
 
 #include<iostream>
 using namespace std;
@@ -11,8 +11,8 @@ using namespace std;
 int arr[10];
 int N,M;
 
-void dfs(int index){
-    if(index==M){
+void dfs(int count){
+    if(count==M){
         for(int i=0;i<M;i++){
             cout<<arr[i]<<' ';
         }
@@ -21,8 +21,8 @@ void dfs(int index){
     }
 
     for(int i=1;i<=N;i++){
-        arr[index]=i;
-        dfs(index+1);
+        arr[count]=i;
+        dfs(count+1);
     }
 }
 

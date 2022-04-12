@@ -9,8 +9,8 @@ using namespace std;
 
 int N,M;
 int arr[10];
-void dfs(int index,int num){
-    if(index==M){
+void dfs(int count,int num){
+    if(count==M){
         for(int i=0;i<M;i++){
             cout<<arr[i]<<' ';
         }
@@ -21,8 +21,8 @@ void dfs(int index,int num){
     for(int i=1;i<=N;i++){
         // 비내림차순이 되도록
         if(i>=num){
-            arr[index]=i;
-            dfs(index+1,i);
+            arr[count]=i;
+            dfs(count+1,i);
         }
     }
 }

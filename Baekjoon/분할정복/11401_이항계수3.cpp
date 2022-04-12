@@ -8,8 +8,9 @@
 // 즉, a^(p-1)을 p로 나눈 나머지는 1이다.
 // a^(p-1) = 1(mod P)
 // a*a^(p-2) = 1(mod P)
-// a^(p-2) = a^(-1)*(mod P)
-// a*b^(-1)%P = A*B^(P-2)%P = (A%P)(B^(P-2)%P)%P 
+// a^(p-2) = a^(-1)(mod P)
+
+// a*b^(-1)%P = a*b^(P-2)%P = (a%P)(b^(P-2)%P)%P 
 
 #include<iostream>
 using namespace std;
