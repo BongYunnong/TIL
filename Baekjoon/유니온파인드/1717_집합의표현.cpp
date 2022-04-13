@@ -1,5 +1,7 @@
 // https://www.acmicpc.net/problem/1717
 
+// 합집합 연산과 두 원소가 같은 집합에 포함되어있는지 확인하는 연산이 주어짐
+
 // 시간초과가 뜬 이유
 // 1. union을 할 때, 자식의 값으로 넣어줌
 // 2. GetParent를 할 때 parent[source]에 대입을 하지 않음..?
