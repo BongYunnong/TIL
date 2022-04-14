@@ -1,23 +1,29 @@
-// ios syncwithstdio 안해서 그랬던거임..
+// https://www.acmicpc.net/problem/1920
+
+// 두 수열이 주어질 때 한 수열의 요소가 다른 수열의 요소에 포함되어있는지 확인
+// binary search를 위해서는 먼저 sort를 해야한다.
+
+// 원래는 무지성으로 찾고, map도 활용해보고 했는데, 시간초과, 메모리 초과가 됨
+
 #include<iostream>
-using namespace std;
 #include<algorithm>
+using namespace std;
 int A[100001];
 
-bool BinarySearch(int start,int end, int element){
-    //cout<<start<<','<<end<<'_'<<element<<"___"<<A[(start+end)/2]<<'\n';
-    if(A[start]==element || A[(start+end)/2]==element || A[end-1]==element )
-        return true;
-    else if(start==end || start==end-1){
-        return false;
-    }
+    bool BinarySearch(int start, int end, int element){
+        if(start>end){
+            return false;
+        }
 
-    if(A[(start+end)/2]>element){
-        return BinarySearch(start,(start+end)/2,element);
-    }else{
-        return BinarySearch((start+end)/2,end,element);
+        int mid = (start+end)/2;
+        if(A[mid] == element){
+            return true;
+        }else if(A[mid] > element){
+            return BinarySearch(start, mid-1,element);
+        }else{
+            return BinarySearch(mid+1,end,element);
+        }
     }
-}
 
 int main(){
     cin.tie(NULL)->sync_with_stdio(false);
@@ -35,8 +41,7 @@ int main(){
     int B[M];
     for(int i=0;i<M;i++){
         cin>>B[i];
-        bool result = BinarySearch(0,N,B[i]);
-        if(result==true){
+        if(BinarySearch(0,N-1,B[i])==true){
             cout<<1<<'\n';
         }else{
             cout<<0<<'\n';

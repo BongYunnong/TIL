@@ -1,3 +1,10 @@
+// https://www.acmicpc.net/problem/2110
+
+// N개의 집에 C개의 공유기를, 최소 거리가 최대가 되도록 하는 방법
+
+// 특정 간격을 기준으로 가능한 위치에 공유기를 설치
+// 설치한 후에 공유기를 더 설치해야하면 간격을 줄이고, 공유기 수를 줄여야하면 간격을 늘린다.
+
 #include<iostream>
 #include<algorithm>
 using namespace std;
@@ -13,14 +20,16 @@ int main(){
     sort(arr,arr+N);
 
     // 이거를 arr[0]으로 했더니 틀렸음 -> 아마 arr[0]이 1이 아니라면 mid의 범위가 넘어갈 수 있으니까 그런 것이 아닐까 생각함
-    long left = 1;
-    long right = arr[N-1];
+    // left, right가 시작점이 아닌 공유기를 놓는 최소, 최대 거리임
+    long minDist = 1;  // 가능한 최소 거리
+    long maxDist = arr[N-1]-arr[0];  // 가능한 최대 거리
     int answer=-1;
-    while(left<=right){
-        long mid = (left+right)/2;
-        int lastLaunchedIndex= 0;
+    while(minDist<=maxDist){
+        long mid = (minDist+maxDist)/2;
+        int lastLaunchedIndex= arr[0];
         int launchCount=1;
         for(int i=1;i<N;i++){
+            // 간격을 기준으로 공유기를 설치해봄 -> launchCount는 공유기를 설치할 수 있는 누적 개수
             if(arr[i]-arr[lastLaunchedIndex] >= mid){
                 lastLaunchedIndex=i;
                 launchCount++;
@@ -28,12 +37,14 @@ int main(){
         }
 
         if(launchCount>=C){
-            left = mid+1;
+            // 간격을 넓히자.
+            minDist = mid+1;
             
             if(answer<=mid)
                 answer=mid;
         }else{
-            right = mid-1;
+            // 간격을 줄이자
+            maxDist = mid-1;
         }
     }
     cout<<answer;

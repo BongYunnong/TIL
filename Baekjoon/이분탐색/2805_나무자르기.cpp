@@ -1,3 +1,5 @@
+// https://www.acmicpc.net/problem/2805
+// 음, low high을 얻기 위해서 sort해버리는 것이 좋다.
 #include<iostream>
 #include<algorithm>
 using namespace std;

@@ -1,3 +1,13 @@
+// https://www.acmicpc.net/problem/10816
+
+// 이 문제가 신기한게, 그냥 무지성으로 counting배열 만들어서 다 넣어봐도 성공은 한다.
+// 다만, 이분탐색이니까 좀 더 멋있게 문제를 풀어보자면
+// sort()한 후에 upper bound, lower bound를 사용할 수 있다.
+// 말 그대로 뒤에서부터 그 값을 찾아서 index 배출, 앞에서부터 그 값을 찾아서 index 배출한다.
+
+// 그런데 이 STL을 모를수도 있으니, 이분탐색으로 이 함수를 만들어내면 된다.
+
+
 // Upper bound, Lower Bound를 만들어냄
 #include<iostream>
 #include<algorithm>
@@ -45,6 +55,7 @@ int main(){
         int upper = N;
         int tmp;
         cin>>tmp;
+        // lower찾고 lower부터 upper까지 다시 upper을 찾는것 아주 멋있는 코드인 듯
         lower = l_bound(lower,upper,tmp);
         upper = u_bound(lower,upper,tmp);
 
