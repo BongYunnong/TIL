@@ -1,3 +1,7 @@
+// https://www.acmicpc.net/problem/1181
+
+// Compare를 잘 활용하자
+
 #include<iostream>
 #include<algorithm>
 #include<string>

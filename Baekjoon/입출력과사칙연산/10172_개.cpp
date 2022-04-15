@@ -1,3 +1,4 @@
+// https://www.acmicpc.net/problem/10172
 #include <iostream>
 
 int main(){

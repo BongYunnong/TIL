@@ -1,3 +1,7 @@
+// https://www.acmicpc.net/problem/10872
+
+// 이건 재귀라기보단... 그냥 팩토리얼 계산하면 된다.
+
 #include<iostream>
 using namespace std;
 int main(){

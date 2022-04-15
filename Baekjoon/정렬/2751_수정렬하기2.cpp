@@ -1,4 +1,6 @@
-// Quick Sort도 시간초과가 뜸
+// https://www.acmicpc.net/problem/2751
+
+// Quick Sort도 시간초과가 뜸 -> merge sort
 
 #include <iostream>
 using namespace std;

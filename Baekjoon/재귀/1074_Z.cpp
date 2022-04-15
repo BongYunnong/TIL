@@ -1,5 +1,9 @@
 // https://www.acmicpc.net/problem/1074
 
+// 원하는 값(r,c)이 현재 위치(x1,y1)과 다를 때,
+// 일단 원하는 값이 지정된 범위 내에 있으면 범위를 4등분하여 찾고
+// 지정된 범위 밖에 있으면 함꼐 재귀호출된 영역만큼 counting한다.
+
 #include<iostream>
 #include<math.h>
 using namespace std;

@@ -1,3 +1,8 @@
+// https://www.acmicpc.net/problem/1427
+
+// 내림차순 정렬인데, 그냥 sort를 한 이유는
+// 마지막에 출력할 때 반대로 출력하기 위함이다.
+
 #include<algorithm>
 #include<iostream>
 #include<vector>

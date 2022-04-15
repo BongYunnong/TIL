@@ -1,3 +1,10 @@
+// https://www.acmicpc.net/problem/10989
+
+// 오름차순으로 정렬
+
+// 그냥 sort, merge sort 하면 시간초과, 메모리초과가 계속 뜬다.
+// 반복하는 것이 많다면 그냥 counting을 해주는 것이 제일 좋은 방법인 듯 하다.
+
 #include<iostream>
 using namespace std;
 int main(){

@@ -1,3 +1,5 @@
+// https://www.acmicpc.net/problem/18108
+
 #include <iostream>
 int main(){
     int dist = 2541-1998;

@@ -1,3 +1,8 @@
+// https://www.acmicpc.net/problem/11650
+
+// 2차원 평면 위의 점 N개가 주어진다. 좌표를 x좌표가 증가하는 순으로, x좌표가 같으면 y좌표가 증가하는 순서로 정렬
+
+
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -7,17 +12,9 @@ using namespace std;
 vector<pair<int,int>> arr;
 
 bool Compare(pair<int,int> a, pair<int,int> b){
-    if(a.first>b.first){
-        return false;
-    }else if(a.first<b.first){
-        return true;
-    }else{
-        if(a.second>=b.second){
-            return false;
-        }else{
-            return true;
-        }
-    }
+    if(a.first == b.first)
+        return a.second<b.second;
+    return a.first<b.first;
 }
 
 int main(){
