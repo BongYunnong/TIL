@@ -1,3 +1,11 @@
+// https://www.acmicpc.net/problem/2004
+
+// 이항계수 문제
+// nCm의 끝자리0의 개수 출력
+
+// nCr =  n!/ (r! * (n-r)!) = (n-r+1)부터 n까지 곱 / r!이다.
+// 1676번 문제와 같이 2*5의 개수를 세주고 빼면 된다.
+
 #include<iostream>
 using namespace std;
 

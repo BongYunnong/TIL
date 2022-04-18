@@ -1,3 +1,5 @@
+// https://www.acmicpc.net/problem/11051
+
 #include<iostream>
 using namespace std;
 
@@ -14,7 +16,6 @@ int main(){
         return 0;
     }
 
-
     for(int i=1;i<=N;i++){
         for(int j=0;j<=K;j++){
             if(j==0) combination[i][j]=1;
@@ -24,16 +25,51 @@ int main(){
         }
     }
 
-    /*
-    for(int i=0;i<=N;i++){
-        for(int j=0;j<=N;j++){
-            cout<<combination[i][j]<<' ';
-        }
-        cout<<endl;
-    } 
-    */
     cout<<combination[N][K]%10007;
 }
+
+// 최대공약수 쓰면 틀리네 -> dp가 최고다.
+/*
+#include<iostream>
+using namespace std;
+
+int GCD(int a,int b){
+    int n;
+    while(b!=0){
+        n = a%b;
+        a = b;
+        b = n;
+    }
+    return a;
+}
+
+int N,K;
+
+int main(){
+    cin.tie(NULL)->sync_with_stdio(false);
+    cout.tie(NULL);
+
+    cin>>N>>K;
+    int fact1 =1;
+    int fact2 =1;
+    for(int i=2;i<=N;i++){
+        if(i>=N-K+1 && i<=K){
+        }else if(i>=N-K+1){
+            fact1*=i;
+        }else if(i<=K){
+            fact2*=i;
+        }
+
+        int gcd = GCD(fact1,fact2);
+        fact1/=gcd;
+        fact2/=gcd;
+        fact1%=10007;
+        fact2%=10007;
+    }
+
+    cout<<(fact1/fact2)%10007;
+}
+*/
 
 /* 런타임오류
 long long N,K;

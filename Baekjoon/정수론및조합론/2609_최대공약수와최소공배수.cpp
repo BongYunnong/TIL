@@ -1,9 +1,10 @@
 //https://www.acmicpc.net/problem/2609
+
+// 유클리드 호제법
+
 #include<iostream>
 using namespace std;
 
-
-// 유클리드 호제법
 int gcd(int a, int b){
     int n;
     while(b!=0){
