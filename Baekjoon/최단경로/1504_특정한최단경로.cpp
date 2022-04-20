@@ -1,3 +1,5 @@
+// https://www.acmicpc.net/problem/1504
+
 // pass가 아니라 result<INF를 쓰면 92퍼에서 틀림..
 // INF를 2000, VMAX를 정의하지 않고 801로 쓰면 틀림..?
 // INF를 2000으로 쓴 것이 문제인듯..

@@ -30,7 +30,8 @@
         "iterator": "cpp",
         "limits": "cpp",
         "xiosbase": "cpp",
-        "map": "cpp"
+        "map": "cpp",
+        "xstddef": "cpp"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }

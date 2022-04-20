@@ -22,6 +22,7 @@ While(the instance is not solved){
 Give Change
 --------------------
 --------------------
+
 - Problem : 코인의 개수가 최소가 되도록 잔돈을 주기.
 - Instance : 25 1개, 10 2개, 5 1개, 1 2개
 
