@@ -1,3 +1,7 @@
+// https://www.acmicpc.net/problem/1753
+
+// 평범한 다익스트라 알고리즘
+
 #include<iostream>
 #include<queue>
 #include<vector>

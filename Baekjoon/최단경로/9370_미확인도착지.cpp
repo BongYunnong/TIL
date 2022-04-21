@@ -1,6 +1,12 @@
-// 중단..
+// https://www.acmicpc.net/problem/9370
+
+// 아마도 검색을 해서 문제를 이해한 듯 하다.
+
+// 다익스트라 자체는 크게 어렵지 않다.
+// 핵심은 목적지 후보를 가려내는 것인데, 목적지 후보가 진짜 목적지인지 판단하는 방법은, start부터 목적지까지의 최단거리가 g,h를 지나서 목적지까지 가는 최단거리와 같은지를 판단하는 것이다.
 
 #include<iostream>
+#include<algorithm>
 #include<vector>
 #include<queue>
 using namespace std;
@@ -20,7 +26,7 @@ int SearchPath(int start,int end){
         cost[i]= INF;
     }
     cost[start]=0;
-    pq.push({0,start});
+    pq.push({-0,start});
 
     while(pq.empty()==false){
         int currWeight = -pq.top().first;
@@ -31,9 +37,9 @@ int SearchPath(int start,int end){
         }
         for(int i =0 ;i<vertex[currDest].size();i++){
             int nextDest = vertex[currDest][i].first;
-            int nextWeight = vertex[currDest][i].second;
-            if(cost[nextDest] > cost[currDest] + nextWeight){
-                cost[nextDest] = cost[currDest] + nextWeight;
+            int nextWeight = vertex[currDest][i].second+currWeight;
+            if(cost[nextDest] > nextWeight){
+                cost[nextDest] = nextWeight;
                 pq.push({-nextWeight,nextDest});
             }
         }
@@ -61,16 +67,21 @@ int main(){
             vertex[b].push_back({a,d});
         }
 
+        vector<int> answer;
         for(int j=0;j<t;j++){
             cin>>x;
 
             int sTox = SearchPath(s,x);
             int answer1 = SearchPath(s,g)+SearchPath(g,h)+SearchPath(h,x);
-            int answer2 = SearchPath(s,h)+SearchPath(h,g)+SearchPath(h,x);
-            if(sTox==answer1||
-                sTox==answer2){
-                    cout<<sTox<<" ";
-                }
+            int answer2 = SearchPath(s,h)+SearchPath(h,g)+SearchPath(g,x);
+            if(sTox==answer1|| sTox==answer2){
+                answer.push_back(x);
+            }
+        }
+        sort(answer.begin(),answer.end());
+        
+        for(int j=0;j<answer.size();j++){
+            cout<<answer[j]<<' ';
         }
         cout<<'\n';
     }
