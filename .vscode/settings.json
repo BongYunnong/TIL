@@ -31,7 +31,8 @@
         "limits": "cpp",
         "xiosbase": "cpp",
         "map": "cpp",
-        "xstddef": "cpp"
+        "xstddef": "cpp",
+        "set": "cpp"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }
