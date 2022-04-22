@@ -1,3 +1,13 @@
+// https://www.acmicpc.net/problem/5430
+
+// 함수 R은 배열에 있는 수의 순서를 뒤집는 함수이고,
+// D는 첫 번째 수를 버리는 함수이다.
+// 배열이 비어있는데 D를 사용한 경우에는 에러가 발생한다.
+
+// 뒤집는다는 것은 앞에서부터 빼던 것을 뒤에서부터 빼겠다는 의미이다.
+
+
+
 #include<iostream>
 #include<string>
 #include<deque>
@@ -51,9 +61,11 @@ int main(){
                 reverse = !reverse;
             }else if(functions[j]=='D'){
                 if(dq.empty()){
+                    // deque가 empty인데 delete하라하면 error
                     error=true;
                     break;
                 }else{
+                    // reverse라면 뒤에서부터, 아니면 앞에서부터 pop
                     if(reverse)
                         dq.pop_back();
                     else

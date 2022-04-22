@@ -1,3 +1,6 @@
+// https://www.acmicpc.net/problem/1197
+
+// 가중치가 음수일수도 있다.
 
 // 왜 내꺼는 틀리는데... 진짜..
 #include<iostream>
