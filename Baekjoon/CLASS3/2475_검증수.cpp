@@ -1,5 +1,6 @@
 // https://www.acmicpc.net/problem/1259
 // 문제만 따라가면 맞춤
+
 #include<iostream>
 using namespace std;
 

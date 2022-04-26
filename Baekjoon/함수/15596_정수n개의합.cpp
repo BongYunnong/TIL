@@ -1,3 +1,7 @@
+// https://www.acmicpc.net/problem/15596
+
+// 정수 n개가 주어졌을 때 n개의 합 구하기
+
 #include <iostream>
 #include <vector>
 using namespace std;

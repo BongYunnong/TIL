@@ -1,3 +1,7 @@
+// https://www.acmicpc.net/problem/1764
+
+// map을 활용해서 듣도 못한 사람을 체크해서 값+1, 보도 못한 사람을 체크해서 값+1을 하면 듣도보도못한사람은 2가 된다.
+
 // 맞음 -> 더 짧음
 #include<iostream>
 #include<map>

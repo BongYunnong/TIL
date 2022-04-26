@@ -1,12 +1,17 @@
 // https://www.acmicpc.net/problem/1107
+
 // 브루트포스 문제
 // 테스트케이스가 적어서 그냥 다 돌리는 것이 낫다고 한다.
 // 나는 리모컨이 고장난 곳에서 모든 값을 다 넣어보는 것을 생각했는데, 0이나 9일 경우 자릿수가 바뀌는 것 때문에 포기를 했다.
 
+// 아주 잘 이해만 한다면 그리 어려운 문제는 아니었을 듯 하다.
+// 문제는 이런 방법을 떠올리는 것이다.
+
 #include<iostream>
 using namespace std;
 
-bool arr[11];
+bool arr[11];   // 고장난 버튼 
+
 int check(int n){
     // 이동하려는 채널이 0일 경우 특별히 처리
     if(n==0){
@@ -18,7 +23,7 @@ int check(int n){
 
     int len=0;
     while(n>0){
-        // 버튼이 고장났을 경우
+        // 버튼이 고장났을 경우, 해당 채널은 고려대상이 아님
         if(arr[n%10])
             return 0;
         // 버튼이 고장나지 않았다면 다음 자리의 수 체크
@@ -40,13 +45,13 @@ int main(){
         cin>>x;
         arr[x]=true;
     }
-    int ans = abs(n-100);
+    int ans = abs(n-100);   // +1 혹은 -1로만 하는 경우가 최대
     for(int i=0;i<10000000;i++){
-        int c = i;
+        int c = i;  // 숫자키로 이동할 경우를 브루트포스로 다 찾음
         int len = check(c);
         if(len>0){
             int press = abs(c-n);
-            if(ans>press+len){
+            if(ans>press+len){  // c까지 이동한 후 +1 혹은 -1로만 이동하는 경우
                 ans = press+len;
             }
         }

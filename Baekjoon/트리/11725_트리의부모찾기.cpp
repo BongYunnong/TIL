@@ -1,3 +1,9 @@
+// https://www.acmicpc.net/problem/11725
+
+// 루트 없는 트리에서 트리의 루트를 1이라 정했을 때 각 노드의 부모는?
+// 1에서부터 시작해서 자식들을 돌아다니며 그 자식의 부모를 이전 노드로 만들어주면 된다.
+
+
 #include<iostream>
 #include<vector>
 

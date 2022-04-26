@@ -1,3 +1,7 @@
+// https://www.acmicpc.net/problem/2920
+
+// index로 combo를 이어나가자
+
 #include<iostream>
 using namespace std;
 
