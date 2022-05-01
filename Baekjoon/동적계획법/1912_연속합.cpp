@@ -5,7 +5,7 @@
 
 // F(N)은 N번 요소를 사용했을 때 얻을 수 있는 가장 큰 수이다.
 // 연속된 수이기때문에 1번부터 차례대로 가장 큰 수를 찾아나가면 된다.
-// F(N) = max(F(N),F(N-1)+arr[N])이다.
+// F(N) = max(arr[N],F(N-1)+arr[N])이다.
 
 #include<iostream>
 using namespace std;

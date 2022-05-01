@@ -26,7 +26,7 @@ int main(){
     for(int i=N;i>=1;i--){
         reverse_results[i]=1;
         for(int j=N;j>=i;j--){
-            if(inputs[i] > inputs[j] && reverse_results[j]+1>reverse_results[i]){
+            if(inputs[i] > inputs[j] && reverse_results[i]<reverse_results[j]+1){
                 reverse_results[i] = reverse_results[j]+1;
             }
         }

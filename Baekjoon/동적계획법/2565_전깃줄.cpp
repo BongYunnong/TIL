@@ -25,7 +25,6 @@ int main(){
     }
     sort(lines.begin(),lines.end());
     results[1] = 1;
-    int result=100;
     for(int i=2;i<=n;i++){
         // 이으려고 하는 전깃줄 이전의 전깃줄을 탐색
         for(int j=i-1;j>=0;j--){
@@ -39,6 +38,7 @@ int main(){
         }
     }
 
+    int result=100;
     for(int i=1;i<=n;i++){
         // 이어진 것 빼고는 다 잘라내야하므로 n - resutls[i]
         result = min(result,n-results[i]);
