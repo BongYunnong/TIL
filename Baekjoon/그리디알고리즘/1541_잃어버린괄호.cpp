@@ -15,7 +15,8 @@ int main(){
     
     while(true){
         int index=-1;
-        if(inputs.find("-")!=string::npos){
+        if(
+            inputs.find("-")!=string::npos){
             index = inputs.find("-");
         }
 
