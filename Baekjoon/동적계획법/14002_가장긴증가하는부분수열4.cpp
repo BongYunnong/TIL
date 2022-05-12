@@ -1,4 +1,4 @@
-// https://www.acmicpc.net/board/view/13730
+// https://www.acmicpc.net/problem/14002
 // 아.. 미친...
 // 가장 긴 부분수열 너무 어렵다.
 // 또 까먹어서 11053번을 봤는데도 틀렸다.
@@ -46,6 +46,9 @@ int main(){
     cout<<'\n';
     */
 
+   // 이 부분이 섹시한 부분
+   // maxIndex를 받아왔으면, 이제 그 이전값들은 maxIndex보다 작은 값이 된다.
+   // 여기서 maxIndex에서 1씩 감소하면서 백트래킹을 하는 것이다.
     for(int i=maxIndex;i>=1;i--){
         if(dp[i]==maxVal){
             results.push_back(A[i]);

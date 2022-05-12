@@ -28,8 +28,8 @@ int main(){
     for(int i=2;i<=n;i++){
         // 이으려고 하는 전깃줄 이전의 전깃줄을 탐색
         for(int j=i-1;j>=0;j--){
-            // 교차하지 않는데 results가 이전 것보다 작거나 같으면 results update
-            // 교차하지 않는데 results가 이전 것보다 크다면, 그대로 가져가야함
+            // 교차하지 않는데 results가 이전 것보다 크거나 같으면 results update
+            // 교차하지 않는데 results가 이전 것보다 작다면, 그대로 가져가야함
             if(lines[i].second>lines[j].second){
                 if(results[i]<=results[j]){
                     results[i] = results[j]+1;
