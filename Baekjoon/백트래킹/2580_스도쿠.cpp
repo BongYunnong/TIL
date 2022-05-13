@@ -68,9 +68,13 @@ void sudoku(int N){
         if(found){
             return;
         }
+        // 최적의 값을 못 찾았을 경우 값 비워주기 -> 백트래킹
+        // 값은 안 비웠을 때 성공하는 이유는, 예상컨대 j가9일때로 계속 남아있어서 무조건 실패인데 성공이 되기 때문이 아닐까 싶다.
+        // 그래서 for문 바깥에다가 값을 비워주는 코드를 쓴는 것과 차이가 없는 듯 하다.
+        board[points[N].first][points[N].second]=0;
     }
-    // 최적의 값을 못 찾았을 경우 값 비워주기 -> 백트래킹
-    board[points[N].first][points[N].second]=0;
+    // board[points[N].first][points[N].second]=0;
+    // 여기다 써도 맞음
     return;
 }
 int main(){

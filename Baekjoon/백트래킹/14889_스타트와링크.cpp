@@ -36,13 +36,8 @@ void dfs(int startIndex,int count){
             }
         }
         
-        int tmpResult = mean1-mean2;
+        result = abs(mean1-mean2);
         //cout<<"result : "<<mean1<<"_"<<mean2<<'\n';
-        if(tmpResult<0){
-            tmpResult*=-1;
-        }
-        if(result>=tmpResult)
-            result = tmpResult;
         return;
     }
 

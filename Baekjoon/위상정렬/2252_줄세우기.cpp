@@ -15,6 +15,8 @@ int N,M;
 void topologySort(){
     vector<int> result;
     queue<int> q;
+
+    // degree가 0이라면 국부적으로 부모인 것들. 
     for(int i=1;i<=N;i++){
         if(indegree[i]==0){
             q.push(i);
@@ -25,9 +27,12 @@ void topologySort(){
         int x = q.front();
         q.pop();
         result.push_back(x);
+        // 국부적 부모에서부터 아래에 있는 것들을 모두 체크
         for(int i=0;i<G[x].size();i++){
             indegree[G[x][i]]--;
+            // 체크 되었다면 degree--
             if(indegree[G[x][i]]==0){
+                // 이제 더이상 부모가 없으면 queue에 push
                 q.push(G[x][i]);
             }
         }
@@ -44,6 +49,7 @@ int main(){
         int a,b;
         cin>>a>>b;
         G[a].push_back(b);
+        // 자식으로 들어가는 것은 degree ++
         indegree[b]++;
     }
     topologySort();

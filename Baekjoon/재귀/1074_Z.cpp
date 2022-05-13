@@ -21,6 +21,8 @@ void Recursive(int x1, int y1, int N){
         Recursive(x1+N/2,y1,N/2);
         Recursive(x1+N/2,y1+N/2,N/2);
     }else{
+        // 이렇게 답을 보면 대충 아, 범위를 벗어난것은 셀 필요가 없겠구나 싶긴한데,
+        // 이걸 생각해내기 어려워서 실버 1이지않을까
         count+=pow(N,2);
     }
 }

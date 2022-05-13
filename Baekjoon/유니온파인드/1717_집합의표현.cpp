@@ -51,6 +51,8 @@ int main(){
         }
     }
 }
+
+
 /* 시간초과 2
 #include<iostream>
 using namespace std;

@@ -23,6 +23,7 @@ int main(){
         ys[i]=y;
     }
 
+
     for(int i=0;i<N;i++){
         int count=0;
         for(int j=0;j<N;j++){

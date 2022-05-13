@@ -32,7 +32,7 @@ int main(){
         arr.push_back(tmp);
     }
 
-    // 중복 제거
+    // 중복 제거, 자동 정렬
     set<int> s(arr.begin(),arr.end());
     vector<int> v(s.begin(),s.end());
 
