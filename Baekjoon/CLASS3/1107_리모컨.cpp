@@ -22,6 +22,7 @@ int check(int n){
     }
 
     int len=0;
+    
     while(n>0){
         // 버튼이 고장났을 경우, 해당 채널은 고려대상이 아님
         if(arr[n%10])
