@@ -280,3 +280,67 @@ if (beam) {
 - Collision에 따라서 문을 열게 하고싶다면, PhysicsContraint 컴포넌트를 활용하면 된다.
     - Ragdoll에서 활용했던 것 처럼 Limited를 주자
 - 문짝 Mesh에 Collision을 추가하고 Simulate physics체크하자
+
+## Decal
+- Decal에 그냥 Material을 넣으면 적용이 안된다.
+- 이것은 매터리얼 type을 deferred decal, blend mode를 translucent로 바꿔주지 않았기 때문에 적용이 안 된 것이다.
+- 필요하다면 SampleTexture에서 Alpha값도 Opacity로 사용하자
+    - 이렇게 하면 매터리얼이 투명해보이게 되는데, 이것을 막으려면 Material detail에서 Decal Blend Mode를 DBuffer로 설정하면 된다
+    - 만약 적용이 안된다면 ProjectSetting에서 Engine-Rendering-Lighting에 DBuffer Decal을 체크하자
+    
+## Sequencer 시퀀서
+- Shift+드래그 배치 : Level에 영향을 끼칠 수 있는 액터 스폰
+- ctrl+드래그 배치 : Level에 영향을 끼치지 않는 액터 스폰(ex. camera rig)
+    - 이것은 시퀀서에 번개 모양이 있는지로 확인 가능
+
+- S키를 통해 키프레임 삽입
+- 카메라 아이콘을 클릭하면 카메라 컷과 카메라 액터가 자동 추가된다.
+- Fade, Sound는 Master에서 트랙 추가 가능
+- Master는 Level 시퀀서를 모두 총괄하는 느낌
+- Level 시퀀서는 협업을 위해서 Animation 트랙, 카메라 트랙 등등으로 나누어서 작업이 가능하다
+- Take 시스템을 활용하면 원본을 훼손하지 않고 여러 작업을 한 뒤 손쉽게 컷 변경이 가능하다
+
+## 왼쪽 위 메시지 뜨는 것
+- DisableAllScreenMessages
+- EnableAllScreeenMessages
+
+## UI위젯을 위해 커서 활성화 후 다시 게임에 포커스하기
+- Menu3D_BP를 만들어서 메인 씬을 만들고, OpenLevel으로 다음 씬으로 넘어가게했는데, 메인메뉴 씬에서 설정했던 커서 관련 데이터가 남아있어서 마우스를 클릭한 상태에서만 마우스 회전 인풋을 받을 수 있었다.
+- 처음에는 LevelBlueprint의 Begin에서 해결을 하려했지만 실패했다.
+- 그래서 진짜 Input을 받을, PlayerController에서 Set Input GameMode Only와 Set Focus On Viewport를 실행하니 정상적으로 작동했다.
+
+## AnimNotify와 AnimNotify State의 차이점
+- 둘 다 AnimationInstance에서 Notify를 줄 수 있는 공통점이 있다.
+- 다른점은 AnimNotifyState는 begin, tick, end 3가지의 이벤트가 실행된다는 점이다
+
+## LineTrace로 GroundMaterial SurfaceType찾기
+- 그냥 LineTrace를 해보면 SurfaceType을 얻을 수 없다.
+- 일단 PhysicalMaterial를 include해야한다.
+    ``` C++
+    #include "PhysicalMaterials/PhysicalMaterial.h"
+    ```
+- 그러면 크래시가 뜨는데, Material이 Invalid하다고 한다.
+    - 그럴때 필요한 것은 FCollisionQueryParams속성에서 bReturnPhysicalMaterial를 true로 만들어주는 것이다.
+    - 블루프린트에서는 기본적으로 세팅이 되어있지만, C++은 더 복잡하기 때문에 수동으로 설정을 해줘야한다.
+    ``` C++
+    FCollisionQueryParams* TraceParams = new FCollisionQueryParams();
+    TraceParams->bReturnPhysicalMaterial = true;
+    TraceParams->AddIgnoredActor(Player);
+    if (GetWorld()->LineTraceSingleByChannel(*HitResult, StartTrace, EndVector, ECC_WorldStatic, *TraceParams)) {
+        if (HitResult->PhysMaterial.IsValid()) {
+            ...
+    ```
+- 참고로 SurfaceType은 ProjectSetting의 Physics카테고리에서 찾을 수 있다.
+
+## DebugDrawLine
+- C++에서 Line Debug하기
+``` C++
+DrawDebugLine(
+    GetWorld(),
+    socketVec,
+    destVec,
+    FColor(255, 0, 0),
+    false, -1, 0,
+    12.333
+);
+```
