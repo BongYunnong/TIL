@@ -18,12 +18,10 @@ void dfs(int count,int num){
         return;
     }
 
-    for(int i=1;i<=N;i++){
+    for(int i=num;i<=N;i++){
         // 비내림차순이 되도록
-        if(i>=num){
-            arr[count]=i;
-            dfs(count+1,i);
-        }
+        arr[count]=i;
+        dfs(count+1,i);
     }
 }
 

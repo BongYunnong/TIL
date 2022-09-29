@@ -3,7 +3,7 @@
 // unordered_map 사용하는 방법
 // sort 후
 // unordered_map<int,int> m;
-// for i=0 to num , if m.count(arr[i]==0) , m.insert({arr[i],idx++})
+// for i=0 to num , if m.count(arr[i])==0 , m.insert({arr[i],idx++})
 // map이 비어있으면 현재 counting된 index를 추가하는 방법
 
 // 이분탐색 이용한 방법

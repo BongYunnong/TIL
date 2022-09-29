@@ -20,5 +20,7 @@ int main(){
             inputs[j]='_';
         }
         cout<<score<<'\n';
+
+        
     }
 }

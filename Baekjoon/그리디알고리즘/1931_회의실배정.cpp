@@ -9,6 +9,7 @@ using namespace std;
 
 // 일단 회의가 끝나는 시간이 빠른 순으로 정렬
 // 만약 회의 끝나는 시간이 같다면? 회의가 시작하는 시간이 빠른 순으로 정렬
+// a.first>b.first로 하면 틀림
 bool Compare(pair<int,int> a, pair<int,int> b){
     if(a.second==b.second)
         return a.first<b.first;

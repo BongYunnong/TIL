@@ -31,7 +31,7 @@ int main(){
 
     for(int i=N-1;i>=0;i--){
         while(s.empty()==false){
-            // cout<<"TOP : "<<s.top()<<" inputs[i] :"<<inputs[i]<<endl;
+             cout<<"TOP : "<<s.top()<<" inputs[i] :"<<inputs[i]<<endl;
             if(s.top()>inputs[i]){
                 results[i]=s.top();
                  break;

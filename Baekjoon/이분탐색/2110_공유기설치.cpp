@@ -26,7 +26,7 @@ int main(){
     int answer=-1;
     while(minDist<=maxDist){
         long mid = (minDist+maxDist)/2;
-        int lastLaunchedIndex= arr[0];
+        int lastLaunchedIndex= 0;
         int launchCount=1;
         for(int i=1;i<N;i++){
             // 간격을 기준으로 공유기를 설치해봄 -> launchCount는 공유기를 설치할 수 있는 누적 개수

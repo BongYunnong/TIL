@@ -344,3 +344,27 @@ DrawDebugLine(
     12.333
 );
 ```
+
+## CharacterAnimaion Jittering문제
+- 앞쪽으로는 상관이 없는데 왼,오,뒤쪽으로 이동하려하면 자꾸 애니메이션이 버벅이는 문제가 있었다.
+- AnimInstance, BasicCharacter, PrototypeCharacter등등 코드를 조금씩 수정해봤는데 결국 못 찾았다.
+- 그러다가 CharacterMovement의 속도를0으로 했을 때 Input이 들어가면 Actor가 회전하려한다는 것을 보았고, 이것을 CharacterMovement의 Orient Rotation To Movement와 연관있을것이라 판단하여 해당 속성을 false로 하니 정상적으로 작동하였다.
+
+## Camera Boom Lag
+- 캐릭터가 계단을 오를때면 위쪽 벡터로는 계속 텔레포트를 하기 때문에 되게 보기 안 좋았다.
+- 그래서 CameraBoom Component의 Lag 속성을 사용하였다.
+- 이것을 사용하면 Smooth한 카메라를 만들 수 있다.
+
+## Persistent Level, Level Streaming, GameMode
+- Loading을 만들기 위해서 Persistent Level을 만들고 Level Streaming을 통해 Load하려했는데, 게임 플레이 레벨에서 Prototype GameMode로 전환이 이루어지지 않아서 플레이어가 생성되지 않는 현상이 일어났다.
+- 알아보니 Level Streaming으로는 GameMode가 변하지 않으니, OpenLevel을 통해서만 GameMode를 바꿀 수 있다고 한다.
+
+## Using Incorrect Object Initializer
+- 생성자에 컴포넌트를 추가한 후에 빌드를 했는데 바로 크래시남
+- 알고보니 MovementComp = CreateDefault.... 이래야하는데 MovementComp->CreateDefault... 이런식으로 null참조를 함...
+
+## Delegate AddDynamic
+- UFUNCTION()을 binding 함수에 넣어주지 않으면 binding 실패함
+
+## UPROPERTY()
+- UPROPERTY()가 있어야 언리얼에서 UObject로 인식하여 메모리 할당,해제를 가능케함

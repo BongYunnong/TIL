@@ -10,8 +10,8 @@
                 "UNICODE",
                 "_UNICODE"
             ],
-            "browse":{
-                "path":[
+            "browse": {
+                "path": [
                     "C:/MinGW/lib/gcc/mingw32/6.3.0/include",
                     "C:/MinGW/lib/gcc/mingw32/6.3.0/include-fixed",
                     "C:/MinGW/lib/include",
@@ -19,10 +19,10 @@
                 ]
             },
             "windowsSdkVersion": "10.0.19041.0",
-            "compilerPath": "C:/MinGW/bin/gcc/exe",
+            "compilerPath": "C:/MinGW/bin/g++.exe",
             "cStandard": "c17",
             "cppStandard": "c++17",
-            "intelliSenseMode": "windows-msvc-x64"
+            "intelliSenseMode": "windows-gcc-x64"
         }
     ],
     "version": 4

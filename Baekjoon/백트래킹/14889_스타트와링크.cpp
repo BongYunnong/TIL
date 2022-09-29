@@ -64,6 +64,6 @@ int main(){
             cin>>score[i][j];
         }
     }
-    dfs(0);
+    dfs(0,0);
     cout<<result;
 }
