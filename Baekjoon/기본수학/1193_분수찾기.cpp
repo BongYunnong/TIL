@@ -32,7 +32,7 @@ int main(){
     long result = 0;
     while(true){
         // n이 범위 내에 존재할 경우 탈출
-        if(count<= n && n< count+plus+1){
+        if(count<= n && n<= count+plus){
             break;
         }else{
             // 더해주는 값은 1씩 더 증가한다.

@@ -380,7 +380,7 @@ int main(){
         }
         void operator delete(void* address){
             cout<<"operator delete"<<endl;
-            delete[] adr;
+            delete[] adrress;
         }
     };
     ostream& operator<<(ostream& os, const Point& pos){
@@ -513,5 +513,5 @@ int main(){
         cout<<m(2,3)<<endl;
     }
     ```
-    - 이런식으로 말이다. 이렇게 함수처럼 사용 가능한 클래스를 'Functor' 또는 'Funciton Object'라고 부른다.
+    - 이런식으로 말이다. 이렇게 함수처럼 사용 가능한 클래스를 'Functor' 또는 'Function Object'라고 부른다.
     - 쓸데없는것처럼 보이지만, 함수에 객체의 특징인 상속 개념을 도입하여 사용할 수도 있다. 최상위 객체에 virtual로 함수를 만들면 인자에 따라서 다양한 결과를 낼 수도 있다.

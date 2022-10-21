@@ -12,7 +12,7 @@ int check[22][22];
 int dx[4]={-1,1,0,0};
 int dy[4]={0,0,-1,1};
 
-int second = 0, babysize = 2,N,x,y;
+int ans = 0, babysize = 2,N,x,y;
 int eatFish=0;
 
 int main(){
@@ -70,15 +70,10 @@ int main(){
             }
         }
         if(fish.size()==0){
-            cout<<second<<'\n';
+            cout<<ans<<'\n';
             return 0;
         }
         else if(fish.size()==1){
-            x=fish[0].first;
-            y=fish[0].second;
-            board[x][y]=0;
-            eatFish++;
-            second+=check[x][y];
         }else{
             int minDsit = 1e5;
             for(auto& x : fish){
@@ -91,21 +86,16 @@ int main(){
                     minfish.push_back({x.first,x.second});
                 }
             }
-            if(minfish.size()==1){
-                x = minfish[0].first;
-                y = minfish[0].second;
-                board[x][y]=0;
-                second+=check[x][y];
-                eatFish++;
-            }else{
+            if(minfish.size()!=1){
                 sort(minfish.begin(),minfish.end());
-                x=minfish[0].first;
-                y=minfish[0].second;
-                second+=check[x][y];
-                board[x][y]=0;
-                eatFish++;
             }
+            fish=minfish;
         }
+        x=fish[0].first;
+        y=fish[0].second;
+        board[x][y]=0;
+        eatFish++;
+        ans+=check[x][y];
     }
 }
 

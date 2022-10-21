@@ -49,3 +49,4 @@ int main(){
         cout<<results[i]<<' ';
     }
 }
+

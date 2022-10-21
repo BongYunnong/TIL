@@ -34,7 +34,7 @@ bool check(pair<int,int> p){
     // square에 있는 값들에 대해 체크
     for(int i=3*square_x;i<3*square_x+3;i++){
         for(int j=3*square_y;j<3*square_y+3;j++){
-            // 이미 다른 값이 있다면 false
+            // 이미 같은 값이 있다면 false
             if(board[i][j] == board[p.first][p.second]){
                 if(i!=p.first && j!=p.second){
                     return false;

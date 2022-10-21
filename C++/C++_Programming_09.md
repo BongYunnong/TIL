@@ -10,7 +10,7 @@ int main(){
    Character* character_p;        //Character객체 포인터
    character_p = new Character(); //동적으로 할당
 }
-```​
+```
 - 그런데 여기서 놀라운 점은, 객체 포인터는 자식 클래스도 가리킬 수 있다는 것이다.
 ``` C++
 class Character{

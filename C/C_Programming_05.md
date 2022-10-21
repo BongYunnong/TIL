@@ -83,9 +83,9 @@
     - 초기화가 한번 실행된다는 뜻이 잘 이해가 안 갈 것 같다. 아래 예시를 보자.
     ``` C
     int main(void){
-    for(int i=0;i<3;i++){
-        PrintValues();
-    }
+        for(int i=0;i<3;i++){
+            PrintValues();
+        }
     }
     ```
     ``` C
@@ -108,7 +108,7 @@
 
 4. 외부 변수
     - 외부 변수는 현재 파일이 아니라 외부 파일에서 선언된 변수를 사용하는 것을 말한다.
-    - script1.c 파일과  script2.c 파일이 있다면 script1.c파일에서 script2.c에서 선언된 파일을 사용할 수 있다.
+    - script1.c 파일과  script2.c 파일이 있다면 script1.c파일에서 script2.c에서 선언된 변수를 사용할 수 있다.
     ``` C
     //script1.c
     #include<stdio.h>

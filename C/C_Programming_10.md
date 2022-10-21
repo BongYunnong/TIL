@@ -89,8 +89,8 @@
         struct character player1;
         struct character player2 = {412421,{10,5}};
 
-        player.characterID = 2131412;
-        player.stat.health = 10;
+        player1.characterID = 2131412;
+        player1.stat.health = 10;
     }
     ```
     - 중첩 구조체를 선언과 동시에 초기화 하려면 위와 같이 단계적으로 중괄호를 사용해주면 된다.

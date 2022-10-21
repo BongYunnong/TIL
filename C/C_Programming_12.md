@@ -52,11 +52,11 @@
 
         strcat(array1,array2);
         puts(array1);
-        gets(array1);
-        gets(array2);
+        gets(array3);
+        gets(array4);
 
         strncat(array3,array4,2);   // array4에서 2개의 문자만 합침
-        puts(array1);
+        puts(array3);
     }
     ```
     ```

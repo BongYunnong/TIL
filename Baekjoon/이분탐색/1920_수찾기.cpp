@@ -10,20 +10,20 @@
 using namespace std;
 int A[100001];
 
-    bool BinarySearch(int start, int end, int element){
-        if(start>end){
-            return false;
-        }
-
-        int mid = (start+end)/2;
-        if(A[mid] == element){
-            return true;
-        }else if(A[mid] > element){
-            return BinarySearch(start, mid-1,element);
-        }else{
-            return BinarySearch(mid+1,end,element);
-        }
+bool BinarySearch(int start, int end, int element){
+    if(start>end){
+        return false;
     }
+
+    int mid = (start+end)/2;
+    if(A[mid] == element){
+        return true;
+    }else if(A[mid] > element){
+        return BinarySearch(start, mid-1,element);
+    }else{
+        return BinarySearch(mid+1,end,element);
+    }
+}
 
 int main(){
     cin.tie(NULL)->sync_with_stdio(false);

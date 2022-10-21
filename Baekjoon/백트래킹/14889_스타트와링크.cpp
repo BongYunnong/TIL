@@ -36,8 +36,8 @@ void dfs(int startIndex,int count){
             }
         }
         
-        result = abs(mean1-mean2);
-        //cout<<"result : "<<mean1<<"_"<<mean2<<'\n';
+        cout<<"result : "<<mean1<<"_"<<mean2<<'\n';
+        result = min(result,abs(mean1-mean2));
         return;
     }
 

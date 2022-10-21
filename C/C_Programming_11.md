@@ -132,7 +132,7 @@
         int health;
     };
 
-    struct printStat(void){
+    struct stat printStat(void){
         struct stat tmpStat = {10,100};
         return tmpStat;
     }
